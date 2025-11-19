@@ -1,4 +1,9 @@
-import { Button, TextField, DropdownPrimitive } from "@/components";
+import {
+  Button,
+  TextField,
+  DropdownPrimitive,
+  DialogPrimitive,
+} from "@components";
 
 export default function App() {
   return (
@@ -20,6 +25,16 @@ export default function App() {
             onClick: () => console.log("Delete clicked"),
           },
         }}
+      />
+      <DialogPrimitive
+        title="Example Dialog"
+        triggerComponent={() => (
+          <Button variant="secondary" size="sm">
+            Open Dialog
+          </Button>
+        )}
+        isOpen={true}
+        setOpen={() => {}}
       />
     </div>
   );
