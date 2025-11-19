@@ -7,7 +7,7 @@
   <!-- We will use Radix headless components -->
   - [x] Buttons with all states
   - [x] Text fields with all states
-  - [ ] Dropdowns
+  - [x] Dropdowns
   - [ ] Dialog
 - [ ] Create the project's layout
   - [ ] Header

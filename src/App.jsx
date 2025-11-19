@@ -1,4 +1,4 @@
-import { Button, TextField } from "@/components";
+import { Button, TextField, DropdownPrimitive } from "@/components";
 
 export default function App() {
   return (
@@ -7,6 +7,20 @@ export default function App() {
         Click me
       </Button>
       <TextField isInvalid></TextField>
+      <DropdownPrimitive
+        triggerComponent={() => (
+          <Button variant="secondary" size="sm">
+            Open Menu
+          </Button>
+        )}
+        items={{
+          item1: { label: "Edit", onClick: () => console.log("Edit clicked") },
+          item2: {
+            label: "Delete",
+            onClick: () => console.log("Delete clicked"),
+          },
+        }}
+      />
     </div>
   );
 }
