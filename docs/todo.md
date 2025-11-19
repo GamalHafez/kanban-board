@@ -5,7 +5,7 @@
   - [x] Colors tokens
   - [x] Typography (add font-family & font-sizes)
   <!-- We will use Radix headless components -->
-  - [ ] Buttons with all states
+  - [x] Buttons with all states
   - [ ] Text fields with all states
   - [ ] Dropdowns
   - [ ] Dialog

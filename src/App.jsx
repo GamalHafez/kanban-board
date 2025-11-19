@@ -1,7 +1,9 @@
+import { Button } from "@/components";
+
 export default function App() {
   return (
-    <h1 className="font-jakarta font-bold text-heading-xl text-main-blue text-center">
-      Hello, Kanban Board!
-    </h1>
+    <div className="font-jakarta font-bold text-heading-xl text-main-blue text-center">
+      <Button variant="secondary" size="lg">Click me</Button>
+    </div>
   );
 }
