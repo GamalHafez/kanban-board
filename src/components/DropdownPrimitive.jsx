@@ -19,16 +19,17 @@ export const DropdownPrimitive = ({ triggerComponent, items }) => {
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className="data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade min-w-48 rounded-lg bg-white shadow will-change-[opacity,transform]"
+          className="font-jakarta data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade mr-7 min-w-48 rounded-lg bg-blue-50 shadow-[0_8px_25px_rgba(0,0,0,0.2)] transition-all duration-200 ease-in-out will-change-[opacity,transform]"
           sideOffset={32}
         >
           {items &&
             Object.keys(items).map((item) => (
               <DropdownMenu.Item
                 className={clsx(
-                  "group text-body-l data-highlighted:bg-light-grey cursor-pointer p-4 leading-none outline-none",
+                  "group text-body-l cursor-pointer p-4 leading-none text-gray-500 transition ease-in-out outline-none hover:bg-blue-100/40 hover:text-black",
                   {
-                    "text-red": items[item].label.includes("Delete"),
+                    "text-red hover:text-red transition duration-500 ease-in-out hover:font-semibold":
+                      items[item].label.includes("Delete"),
                   },
                 )}
                 key={items[item].label}

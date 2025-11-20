@@ -10,7 +10,7 @@
   - [x] Dropdowns
   - [x] Dialog
 - [ ] Create the project's layout
-  - [ ] Header
+  - [x] Header
   - [ ] Sidebar
   - [ ] Workspace
   - [ ] Boards
