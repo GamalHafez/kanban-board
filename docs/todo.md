@@ -11,11 +11,11 @@
   - [x] Dialog
 - [ ] Create the project's layout
   - [x] Header
-  - [ ] Sidebar
-  - [ ] Workspace
-  - [ ] Boards
-  - [ ] Columns
-  - [ ] Tasks
+  - [x] Sidebar
+  - [x] Workspace
+  - [x] Boards
+  - [x] Columns
+  - [x] Tasks
   - [ ] Mock data and use it to render the boards
 - Project's functionality
   - [ ] Add new board

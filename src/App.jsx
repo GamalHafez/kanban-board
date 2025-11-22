@@ -1,4 +1,4 @@
-import { Header, SideMenu } from "@components";
+import { Header, SideMenu, WorkSpace } from "@components";
 
 export default function App() {
   return (
@@ -6,6 +6,7 @@ export default function App() {
       <Header boardName="Test Board" />
       <div className="flex flex-1 overflow-hidden">
         <SideMenu />
+        <WorkSpace />
       </div>
     </main>
   );

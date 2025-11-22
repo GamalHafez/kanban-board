@@ -6,3 +6,6 @@ export * from "./Header";
 export * from "./SideMenu";
 export * from "./BoardSvg";
 export * from "./BoardButton";
+export * from "./WorkSpace";
+export * from "./Column";
+export * from "./Task";
