@@ -9,14 +9,14 @@
   - [x] Text fields with all states
   - [x] Dropdowns
   - [x] Dialog
-- [ ] Create the project's layout
+- [x] Create the project's layout
   - [x] Header
   - [x] Sidebar
   - [x] Workspace
   - [x] Boards
   - [x] Columns
   - [x] Tasks
-  - [ ] Mock data and use it to render the boards
+  - [x] Mock data and use it to render the boards
 - Project's functionality
   - [ ] Add new board
   - [ ] Delete board
@@ -28,3 +28,6 @@
   - [ ] Delete Column
   - [ ] Edit task
   - [ ] Drag and drop tasks
+- Optional Updates to do:
+  - [x] Pass `boardName` as a prop from `App.jsx` to the `Header` component to display the current board title.
+  - [ ] Persist the selected board index in `localStorage` and load it on app startup.

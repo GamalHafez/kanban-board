@@ -1,0 +1,45 @@
+[
+  {
+    "id": 1,
+    "title": "Front-End Board",
+    "columns": [
+      {
+        "id": 1,
+        "title": "Done",
+        "tasks": [
+          {
+            "id": 1,
+            "title": "Learn HTML, CSS, JS",
+            "description": "Built a solid foundation in core web technologies."
+          },
+          {
+            "id": 2,
+            "title": "Learn React & Build Projects",
+            "description": "Created small apps to understand components and hooks."
+          },
+          {
+            "id": 3,
+            "title": "Learn TypeScript",
+            "description": "Explored static typing and improved code reliability."
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "To Do",
+        "tasks": [
+          {
+            "id": 4,
+            "title": "Build Portfolio Website",
+            "description": "A site to showcase projects and experience."
+          },
+          {
+            "id": 5,
+            "title": "Freelance Mini-Projects",
+            "description": "Small client projects to gain real-world practice."
+          }
+        ]
+      }
+    ]
+  }
+]
