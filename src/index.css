@@ -6,7 +6,7 @@
   --font-jakarta: "Plus Jakarta Sans", sans-serif;
 
   /* Heading */
-  --text-heading-s: 0.75rem;
+  --text-heading-s: 0.8rem;
   --text-heading-s-font-weight: 700;
 
   --text-heading-m: 0.9rem;
@@ -26,7 +26,7 @@
   --text-body-l-font-weight: 500;
 
   /* Colors */
-  --color-main-blue: #3583db;
+  --color-main-blue: #3272bb;
   --color-main-blue-hover: #106ad2;
 
   --color-red: #ea5555;

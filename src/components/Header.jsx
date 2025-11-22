@@ -35,7 +35,7 @@ export function Header({ boardName }) {
   };
 
   return (
-    <header className="flex h-[97px] shrink-0 items-center">
+    <header className="text-main-blue border-lines-light flex h-[97px] shrink-0 items-center border-b bg-white">
       <h1 className="border-lines-light flex w-[300px] items-center gap-4 self-stretch border-r border-b pl-8 text-[32px] font-bold">
         Kanban
       </h1>
