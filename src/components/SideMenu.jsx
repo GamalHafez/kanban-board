@@ -1,6 +1,15 @@
 import { BoardButton, BoardSvg, DialogPrimitive } from "@components";
 import { useState } from "react";
 
+/**
+ *
+ * @param {Object} props
+ * @param {Array} props.data
+ * @param {number} props.selectedBoardIndex
+ * @param {Function} props.setSelectedBoardIndex
+ * @returns {JSX.Element}
+ */
+
 export function SideMenu({
   data = [],
   selectedBoardIndex,

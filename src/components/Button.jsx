@@ -25,6 +25,18 @@ const button = cva("rounded-full px-6 duration-200 text-[13px] font-bold", {
   },
 });
 
+/**
+ *
+ * @param {Object} props
+ * @param {React.ReactNode} props.children
+ * @param {'sm' | 'lg'} [props.size]
+ * @param {'primary' | 'secondary' | 'destructive'} [props.variant]
+ * @param {boolean} [props.isDisabled]
+ * @param {string} [props.className]
+ * @param {boolean} [props.isFullWidth]
+ * @returns {JSX.Element}
+ */
+
 export function Button({
   children,
   size,

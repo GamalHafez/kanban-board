@@ -1,5 +1,12 @@
 import { Task } from "@components";
 
+/**
+ * @param {Object} props
+ * @param {string} props.title
+ * @param {Array} props.tasks
+ * @returns {JSX.Element}
+ */
+
 export function Column({ title, tasks = [] }) {
   return (
     <article className="bg-lines-light flex w-72 shrink-0 flex-col gap-6 self-start rounded-lg px-2 py-4 shadow">

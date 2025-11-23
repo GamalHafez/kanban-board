@@ -1,6 +1,16 @@
 import { Column } from "@components";
 
-export function WorkSpace({ columns }) {
+/**
+ *
+ * @param {Object} props
+ * @param {Array} props.columns
+ * @param {number} props.columns[].id
+ * @param {string} props.columns[].title
+ * @param {Array} props.columns[].tasks
+ * @returns {JSX.Element}
+ */
+
+export function WorkSpace({ columns = [] }) {
   return (
     <section className="bg-light-grey flex h-[calc(100vh-97px)] flex-1 gap-6 overflow-auto p-6">
       {columns.map((column) => (

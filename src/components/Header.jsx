@@ -13,6 +13,13 @@ const DIALOG_DATA = {
   },
 };
 
+/**
+ *
+ * @param {Object} props
+ * @param {string} props.boardName
+ * @returns {JSX.Element}
+ */
+
 export function Header({ boardName }) {
   const [open, setOpen] = useState(false);
   const [dialogType, setDialogType] = useState("edit");

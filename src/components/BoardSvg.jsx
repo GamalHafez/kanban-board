@@ -1,3 +1,10 @@
+/**
+ *
+ * @param {Object} props
+ * @param {'blue' | 'white'} [props.color]
+ * @returns {JSX.Element}
+ */
+
 export function BoardSvg({ color }) {
   let fillColor = "#828FA3"; // Default color
 

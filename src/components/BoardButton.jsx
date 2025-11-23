@@ -9,6 +9,14 @@ const BOARD_BUTTON_CLSX = (isSelected) =>
       : "hover:bg-main-blue/10 hover:text-main-blue transition duration-300 ease-in-out",
   );
 
+/**
+ *
+ * @param {Object} props
+ * @param {boolean} props.isSelected
+ * @param {Function} props.onClick
+ * @param {string} props.name
+ * @returns {JSX.Element}
+ */
 export function BoardButton({ isSelected, onClick, name }) {
   return (
     <button className={BOARD_BUTTON_CLSX(isSelected)} onClick={onClick}>
