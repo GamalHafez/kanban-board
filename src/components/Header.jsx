@@ -1,6 +1,7 @@
 import { DialogPrimitive, DropdownPrimitive } from "@components";
 import iconVerticalEllipsis from "@assets/icon-vertical-ellipsis.svg";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import DataContext from "@context/data-context.js";
 
 const DIALOG_DATA = {
   edit: {
@@ -15,12 +16,11 @@ const DIALOG_DATA = {
 
 /**
  *
- * @param {Object} props
- * @param {string} props.boardName
  * @returns {JSX.Element}
  */
 
-export function Header({ boardName }) {
+export function Header() {
+  const { selectedBoardIndex, data } = useContext(DataContext);
   const [open, setOpen] = useState(false);
   const [dialogType, setDialogType] = useState("edit");
 
@@ -47,7 +47,9 @@ export function Header({ boardName }) {
         Kanban
       </h1>
       <div className="border-lines-light flex flex-1 items-center justify-between self-stretch border-b pr-6 pl-6">
-        <h2 className="text-heading-xl font-semibold">{boardName}</h2>
+        <h2 className="text-heading-xl font-semibold">
+          {data[selectedBoardIndex]?.title}
+        </h2>
         <DropdownPrimitive
           items={dropDownItems}
           triggerComponent={() => (

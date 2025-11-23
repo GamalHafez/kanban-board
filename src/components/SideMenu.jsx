@@ -1,21 +1,16 @@
-import { BoardButton, BoardSvg, DialogPrimitive } from "@components";
-import { useState } from "react";
+import { BoardButton, BoardSvg, DialogPrimitive, EditBoard } from "@components";
+import { useContext, useState } from "react";
+import DataContext from "@context/data-context";
 
 /**
  *
- * @param {Object} props
- * @param {Array} props.data
- * @param {number} props.selectedBoardIndex
- * @param {Function} props.setSelectedBoardIndex
  * @returns {JSX.Element}
  */
 
-export function SideMenu({
-  data = [],
-  selectedBoardIndex,
-  setSelectedBoardIndex,
-}) {
+export function SideMenu() {
   const [open, setOpen] = useState(false);
+  const { data, selectedBoardIndex, setSelectedBoardIndex } =
+    useContext(DataContext);
 
   return (
     <aside className="side-menu border-Lines-Light border-lines-light -mt-px w-[300px] border-r bg-white">
@@ -44,7 +39,12 @@ export function SideMenu({
                 <BoardSvg color="blue" />+ Create New Board
               </button>
             }
-          ></DialogPrimitive>
+          >
+            <EditBoard
+              columns={data[selectedBoardIndex]?.columns}
+              submitText="+ Create New Board"
+            />
+          </DialogPrimitive>
         </li>
       </ul>
     </aside>
