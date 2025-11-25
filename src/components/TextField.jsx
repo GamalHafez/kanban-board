@@ -7,33 +7,27 @@ import clsx from "clsx";
  * @param {string} props.name
  * @param {boolean} props.required
  * @param {string} props.defaultValue
+ * @param {string} props.label
  * @returns {JSX.Element}
  */
 
-export function TextField({
-  placeholder,
-  isInvalid,
-  name,
-  required,
-  defaultValue,
-}) {
+export function TextField({ isInvalid, name, ...props }) {
   return (
-    <div className="relative flex min-w-80 flex-1 items-center">
+    <div className="relative flex min-w-80 flex-1 flex-col gap-1">
       {isInvalid && (
-        <span className="text-body-l text-red absolute right-4">
+        <span className="text-body-l text-red absolute top-1/2 right-4 -translate-y-1/2 font-bold">
           Can’t be empty
         </span>
       )}
       <input
         type="text"
+        id={name}
         name={name}
-        defaultValue={defaultValue}
-        placeholder={placeholder}
-        required={required}
+        {...props}
         className={clsx(
-          "border-medium-grey/25 text-body-l w-full rounded-sm border py-2 pl-4",
+          "border-medium-grey/25 text-body-l w-full rounded-sm border py-2 pl-4 font-semibold text-black outline-none placeholder:font-medium placeholder:tracking-wider",
           {
-            "border-red pr-32": isInvalid,
+            "border-b-red border-2 pr-32": isInvalid,
             "pr-4": !isInvalid,
           },
         )}

@@ -9,3 +9,5 @@ export * from "./BoardButton";
 export * from "./WorkSpace";
 export * from "./Column";
 export * from "./Task";
+export * from "./EditBoardForm";
+export * from "./Label";

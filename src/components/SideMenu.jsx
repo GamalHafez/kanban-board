@@ -1,4 +1,9 @@
-import { BoardButton, BoardSvg, DialogPrimitive, EditBoard } from "@components";
+import {
+  BoardButton,
+  BoardSvg,
+  DialogPrimitive,
+  EditBoardForm,
+} from "@components";
 import { useContext, useState } from "react";
 import DataContext from "@context/data-context";
 
@@ -40,10 +45,7 @@ export function SideMenu() {
               </button>
             }
           >
-            <EditBoard
-              columns={data[selectedBoardIndex]?.columns}
-              submitText="+ Create New Board"
-            />
+            <EditBoardForm setOpen={setOpen} submitText="Create New Board" />
           </DialogPrimitive>
         </li>
       </ul>

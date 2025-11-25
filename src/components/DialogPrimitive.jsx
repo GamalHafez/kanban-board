@@ -29,7 +29,7 @@ export const DialogPrimitive = ({
         <Dialog.Overlay className="data-[state=open]:animate-overlayShow fixed inset-0 bg-black/50" />
         <Dialog.Content
           className={clsx(
-            "font-jakarta data-[state=open]:animate-contentShow border-main-blue fixed top-[50%] left-[50%] max-h-[85vh] w-[480px] translate-x-[-50%] translate-y-[-50%] overflow-auto rounded-md border-l-4 bg-white p-8 focus:outline-none",
+            "font-jakarta data-[state=open]:animate-contentShow border-main-blue fixed top-[50%] left-[50%] max-h-[85vh] w-[480px] translate-x-[-50%] translate-y-[-50%] overflow-auto rounded-md border-t-4 bg-white p-8 focus:outline-none",
             {
               "border-red": dialogType === "delete",
             },
