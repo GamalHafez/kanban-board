@@ -1,8 +1,8 @@
-export const initialBoard = {
+export const initialBoard = () => ({
   id: crypto.randomUUID(),
   title: "",
   columns: [{ id: crypto.randomUUID(), title: "", tasks: [] }],
-};
+});
 
 export const ACTIONS = {
   UPDATE_TITLE: "update-title",

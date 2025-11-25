@@ -16,7 +16,7 @@ import { ACTIONS, initialBoard, reducer } from "@utils";
 export function EditBoardForm({ selectedBoard = {}, submitText, setOpen }) {
   const [boardState, dispatch] = useReducer(
     reducer,
-    Object.keys(selectedBoard).length ? selectedBoard : initialBoard,
+    Object.keys(selectedBoard).length ? selectedBoard : initialBoard(),
   );
   const { setData, data, setSelectedBoardIndex } = useContext(DataContext);
   const [error, setError] = useState(false);
