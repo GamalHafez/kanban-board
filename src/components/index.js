@@ -11,3 +11,4 @@ export * from "./Column";
 export * from "./Task";
 export * from "./EditBoardForm";
 export * from "./Label";
+export * from "./DeleteBoard";

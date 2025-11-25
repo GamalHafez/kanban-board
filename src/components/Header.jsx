@@ -1,4 +1,4 @@
-import { DialogPrimitive, DropdownPrimitive } from "@components";
+import { DeleteBoard, DialogPrimitive, DropdownPrimitive } from "@components";
 import iconVerticalEllipsis from "@assets/icon-vertical-ellipsis.svg";
 import { useContext, useState } from "react";
 import DataContext from "@context/data-context.js";
@@ -9,7 +9,7 @@ const DIALOG_DATA = {
     description: "Make changes to your profile here.",
   },
   delete: {
-    title: "Delete Board",
+    title: "Delete this Board?",
     description: "Are you sure you want to delete this board?",
   },
 };
@@ -68,7 +68,9 @@ export function Header() {
           setOpen={setOpen}
           description={DIALOG_DATA[dialogType].description}
         >
-          Hello from Dialog
+          {dialogType === "delete" ? (
+            <DeleteBoard dialogToggle={setOpen} />
+          ) : null}
         </DialogPrimitive>
       </div>
     </header>
