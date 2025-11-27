@@ -1,4 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
+import { DIALOG_DATA } from "@utils";
 import clsx from "clsx";
 
 /**
@@ -31,13 +32,13 @@ export const DialogPrimitive = ({
           className={clsx(
             "font-jakarta data-[state=open]:animate-contentShow border-main-blue fixed top-[50%] left-[50%] max-h-[85vh] w-[480px] translate-x-[-50%] translate-y-[-50%] overflow-auto rounded-md border-t-4 bg-white p-8 focus:outline-none",
             {
-              "border-red": dialogType === "delete",
+              "border-red": dialogType === DIALOG_DATA.DELETE.key,
             },
           )}
         >
           <Dialog.Title
             className={clsx("text-heading-l text-main-blue font-bold", {
-              "text-red": dialogType === "delete",
+              "text-red": dialogType === DIALOG_DATA.DELETE.key,
             })}
           >
             {title}

@@ -1,43 +1,32 @@
-import { DeleteBoard, DialogPrimitive, DropdownPrimitive } from "@components";
+import {
+  DeleteBoard,
+  DialogPrimitive,
+  DropdownPrimitive,
+  EditBoardForm,
+} from "@components";
 import iconVerticalEllipsis from "@assets/icon-vertical-ellipsis.svg";
 import { useContext, useState } from "react";
 import DataContext from "@context/data-context.js";
-
-const DIALOG_DATA = {
-  edit: {
-    title: "Edit Board",
-    description: "Make changes to your profile here.",
-  },
-  delete: {
-    title: "Delete this Board?",
-    description: "Are you sure you want to delete this board?",
-  },
-};
-
-/**
- *
- * @returns {JSX.Element}
- */
+import { DIALOG_DATA, EDIT_MODES } from "@utils";
 
 export function Header() {
   const { selectedBoardIndex, data } = useContext(DataContext);
   const [open, setOpen] = useState(false);
-  const [dialogType, setDialogType] = useState("edit");
+  const [dialogMode, setDialogMode] = useState(DIALOG_DATA.EDIT);
+
+  const dialogOnClick = (dialogMode) => {
+    setDialogMode(dialogMode);
+    setOpen(true);
+  };
 
   const dropDownItems = {
     edit: {
-      label: "Edit Board",
-      onClick: () => {
-        setDialogType("edit");
-        setOpen(true);
-      },
+      label: DIALOG_DATA.EDIT.label,
+      onClick: () => dialogOnClick(DIALOG_DATA.EDIT),
     },
     delete: {
-      label: "Delete Board",
-      onClick: () => {
-        setDialogType("delete");
-        setOpen(true);
-      },
+      label: DIALOG_DATA.DELETE.label,
+      onClick: () => dialogOnClick(DIALOG_DATA.DELETE),
     },
   };
 
@@ -62,15 +51,21 @@ export function Header() {
           )}
         />
         <DialogPrimitive
-          dialogType={dialogType}
-          title={DIALOG_DATA[dialogType].title}
+          dialogType={dialogMode.key}
+          title={dialogMode.title}
           isOpen={open}
           setOpen={setOpen}
-          description={DIALOG_DATA[dialogType].description}
+          description={dialogMode.description}
         >
-          {dialogType === "delete" ? (
+          {dialogMode.key === DIALOG_DATA.DELETE.key ? (
             <DeleteBoard dialogToggle={setOpen} />
-          ) : null}
+          ) : (
+            <EditBoardForm
+              selectedBoard={data[selectedBoardIndex]}
+              setOpen={setOpen}
+              editMode={EDIT_MODES.EDIT}
+            />
+          )}
         </DialogPrimitive>
       </div>
     </header>

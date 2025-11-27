@@ -6,6 +6,7 @@ import {
 } from "@components";
 import { useContext, useState } from "react";
 import DataContext from "@context/data-context";
+import { EDIT_MODES } from "@utils";
 
 /**
  *
@@ -45,7 +46,7 @@ export function SideMenu() {
               </button>
             }
           >
-            <EditBoardForm setOpen={setOpen} submitText="Create New Board" />
+            <EditBoardForm editMode={EDIT_MODES.CREATE} setOpen={setOpen} />
           </DialogPrimitive>
         </li>
       </ul>

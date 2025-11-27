@@ -2,7 +2,7 @@ import { Button, Label, TextField } from "@components";
 import cancelIcon from "@assets/icon-cross.svg";
 import { useContext, useReducer, useState } from "react";
 import DataContext from "@context/data-context";
-import { ACTIONS, initialBoard, reducer } from "@utils";
+import { ACTIONS, EDIT_MODES, initialBoard, reducer } from "@utils";
 
 /**
  *
@@ -13,7 +13,7 @@ import { ACTIONS, initialBoard, reducer } from "@utils";
  * @returns {JSX.Element}
  */
 
-export function EditBoardForm({ selectedBoard = {}, submitText, setOpen }) {
+export function EditBoardForm({ selectedBoard = {}, editMode, setOpen }) {
   const [boardState, dispatch] = useReducer(
     reducer,
     Object.keys(selectedBoard).length ? selectedBoard : initialBoard(),
@@ -23,12 +23,29 @@ export function EditBoardForm({ selectedBoard = {}, submitText, setOpen }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Handle Empty TextFields
     if (!boardState.title || boardState.columns.some((col) => !col.title)) {
       setError(true);
       return;
     }
-    setData((prev) => [...prev, boardState]);
-    setSelectedBoardIndex(data.length); // Select the newly created board
+    switch (editMode.title) {
+      case EDIT_MODES.CREATE.title:
+        setData((prev) => [...prev, boardState]);
+        setSelectedBoardIndex(data.length); // Select the newly created board
+        break;
+      case EDIT_MODES.EDIT.title: {
+        const selectedBoardId = data.find(
+          (board) => board.id === selectedBoard.id,
+        ).id;
+        setData((prev) => [
+          ...prev.filter((board) => board.id !== selectedBoardId),
+          boardState,
+        ]);
+        break;
+      }
+      default:
+        break;
+    }
     setOpen(false);
     setError(false);
   };
@@ -92,7 +109,7 @@ export function EditBoardForm({ selectedBoard = {}, submitText, setOpen }) {
           + Add New Column
         </Button>
         <Button isFullWidth size="sm" variant="primary">
-          {submitText}
+          {editMode.submitText}
         </Button>
       </div>
     </form>
