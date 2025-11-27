@@ -20,7 +20,7 @@
 - Project's functionality
   - [x] Add new board
   - [x] Delete board
-  - [ ] Cache boards in local storage
+  - [x] Cache boards in local storage
   - [ ] Edit board
   - [ ] Add new task
   - [ ] Delete task
