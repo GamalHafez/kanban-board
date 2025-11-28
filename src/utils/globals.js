@@ -17,3 +17,8 @@ export const DIALOG_DATA = {
     description: "Are you sure you want to delete this board?",
   },
 };
+
+export const DEFAULT_TASK = {
+  title: "New Task",
+  description: "task description",
+};
