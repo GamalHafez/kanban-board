@@ -40,7 +40,7 @@ export function Column({ id, title, tasks = [] }) {
         {title}
         <span className="text-main-blue ml-1.5">({tasks.length})</span>
       </h2>
-      <div className="mb-5 flex flex-col gap-5">
+      <div className="mb-2 flex h-[420px] flex-col gap-5 overflow-y-auto pr-3">
         {tasks.map((task) => (
           <Task
             key={task.id}
