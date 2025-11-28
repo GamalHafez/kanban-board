@@ -1,5 +1,4 @@
 import { Task } from "@components";
-// import { useContext } from "react";
 import DataContext from "@context/data-context";
 import { DEFAULT_TASK } from "@utils";
 import { useContext } from "react";
@@ -45,6 +44,8 @@ export function Column({ id, title, tasks = [] }) {
         {tasks.map((task) => (
           <Task
             key={task.id}
+            id={task.id}
+            colId={id}
             title={task.title}
             description={task.description}
           />

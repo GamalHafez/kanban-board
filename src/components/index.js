@@ -12,3 +12,4 @@ export * from "./Task";
 export * from "./EditBoardForm";
 export * from "./Label";
 export * from "./DeleteBoard";
+export * from "./DeleteTaskPopOver";

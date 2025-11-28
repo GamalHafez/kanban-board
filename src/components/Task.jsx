@@ -1,3 +1,5 @@
+import { DeleteTaskPopOver } from "@components";
+
 /**
  *
  * @param {Object} props
@@ -6,9 +8,9 @@
  * @returns {JSX.Element}
  */
 
-export function Task({ title, description }) {
+export function Task({ title, id, colId, description }) {
   return (
-    <div className="group/card relative flex min-h-16 transform justify-between overflow-y-hidden rounded-lg bg-white px-4 py-3 shadow-sm duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-lg">
+    <div className="group/card flex min-h-16 transform justify-between rounded-lg bg-white px-4 py-3 shadow-sm duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-lg">
       <div>
         <h3 className="group-hover/card:text-main-blue font-bold text-gray-800 transition-colors duration-300">
           {title}
@@ -17,9 +19,7 @@ export function Task({ title, description }) {
           {description}
         </p>
       </div>
-      <button className="text-red text-heading-s invisible cursor-pointer font-semibold group-hover/card:visible hover:font-bold">
-        Delete
-      </button>
+      <DeleteTaskPopOver id={id} colId={colId} title={title} />
     </div>
   );
 }
