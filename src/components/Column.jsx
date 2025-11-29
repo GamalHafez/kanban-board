@@ -1,6 +1,5 @@
 import { Task, DeletePopOver } from "@components";
 import DataContext from "@context/data-context";
-import { DEFAULT_TASK } from "@utils";
 import { useContext } from "react";
 import { produce } from "immer";
 
@@ -33,8 +32,8 @@ export function Column({ id, title, tasks = [] }) {
 
         draft[selectedBoardIndex].columns[colIndex].tasks.push({
           id: crypto.randomUUID(),
-          title: DEFAULT_TASK.title,
-          description: DEFAULT_TASK.description,
+          title: "",
+          description: "",
         });
       }),
     );
