@@ -1,22 +1,22 @@
 import * as Popover from "@radix-ui/react-popover";
 import DataContext from "@context/data-context";
 import { useContext } from "react";
+import { produce } from "immer";
 
 export function DeleteTaskPopOver({ id, colId, title }) {
   const { setData, selectedBoardIndex } = useContext(DataContext);
 
   const deleteTaskHandler = () =>
-    setData((prev) => {
-      const copy = [...prev];
-      const cols = copy[selectedBoardIndex]?.columns;
-      const targetColIndex = cols.findIndex((col) => col.id === colId);
+    setData((prev) =>
+      produce(prev, (draft) => {
+        const cols = draft[selectedBoardIndex].columns;
+        const targetColIndex = cols.findIndex((col) => col.id === colId);
 
-      cols[targetColIndex].tasks = cols[targetColIndex].tasks.filter(
-        (task) => task.id !== id,
-      );
-
-      return copy;
-    });
+        cols[targetColIndex].tasks = cols[targetColIndex].tasks.filter(
+          (task) => task.id !== id,
+        );
+      }),
+    );
 
   return (
     <Popover.Root>

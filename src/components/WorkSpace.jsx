@@ -3,16 +3,6 @@ import DataContext from "@context/data-context";
 import { EDIT_MODES } from "@utils";
 import { useContext, useState } from "react";
 
-/**
- *
- * @param {Object} props
- * @param {Array} props.columns
- * @param {number} props.columns[].id
- * @param {string} props.columns[].title
- * @param {Array} props.columns[].tasks
- * @returns {JSX.Element}
- */
-
 export function WorkSpace() {
   const { data, selectedBoardIndex } = useContext(DataContext);
   const [open, setOpen] = useState(false);

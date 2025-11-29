@@ -2,9 +2,11 @@ import { Task } from "@components";
 import DataContext from "@context/data-context";
 import { DEFAULT_TASK } from "@utils";
 import { useContext } from "react";
+import { produce } from "immer";
 
 /**
  * @param {Object} props
+ * @param {string} props.id
  * @param {string} props.title
  * @param {Array} props.tasks
  * @returns {JSX.Element}
@@ -14,25 +16,19 @@ export function Column({ id, title, tasks = [] }) {
   const { setData, selectedBoardIndex } = useContext(DataContext);
 
   const addNewTaskHandler = () =>
-    // Safely update the selected column's tasks by cloning state and appending a new empty task.
-    setData((prev) => {
-      const copy = structuredClone(prev);
-      const board = copy[selectedBoardIndex];
+    setData((prev) =>
+      produce(prev, (draft) => {
+        const colIndex = draft[selectedBoardIndex]?.columns.findIndex(
+          (c) => c.id === id,
+        );
 
-      const colIndex = board.columns.findIndex((c) => c.id === id);
-      const targetCol = board.columns[colIndex];
-
-      targetCol.tasks = [
-        ...targetCol.tasks,
-        {
+        draft[selectedBoardIndex].columns[colIndex].tasks.push({
           id: crypto.randomUUID(),
           title: DEFAULT_TASK.title,
           description: DEFAULT_TASK.description,
-        },
-      ];
-
-      return copy;
-    });
+        });
+      }),
+    );
 
   return (
     <article className="bg-lines-light flex w-72 shrink-0 flex-col gap-6 self-start rounded-lg px-2 py-4 shadow">
