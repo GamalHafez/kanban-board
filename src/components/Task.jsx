@@ -1,14 +1,33 @@
-import { DeleteTaskPopOver } from "@components";
+import { DeletePopOver } from "@components";
+import { produce } from "immer";
+import DataContext from "@context/data-context";
+import { useContext } from "react";
 
 /**
  *
  * @param {Object} props
+ * @param {string} props.id
  * @param {string} props.title
+ * @param {string} props.colId
  * @param {string} props.description
  * @returns {JSX.Element}
  */
 
 export function Task({ title, id, colId, description }) {
+  const { setData, selectedBoardIndex } = useContext(DataContext);
+
+  const deleteTaskHandler = () =>
+    setData((prev) =>
+      produce(prev, (draft) => {
+        const cols = draft[selectedBoardIndex].columns;
+        const targetColIndex = cols.findIndex((col) => col.id === colId);
+
+        cols[targetColIndex].tasks = cols[targetColIndex].tasks.filter(
+          (task) => task.id !== id,
+        );
+      }),
+    );
+
   return (
     <div className="group/card flex min-h-16 transform justify-between rounded-lg bg-white px-4 py-3 shadow-sm duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-lg">
       <div>
@@ -19,7 +38,11 @@ export function Task({ title, id, colId, description }) {
           {description}
         </p>
       </div>
-      <DeleteTaskPopOver id={id} colId={colId} title={title} />
+      <DeletePopOver
+        deleteHandler={deleteTaskHandler}
+        parent="card"
+        title={title}
+      />
     </div>
   );
 }

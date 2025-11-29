@@ -1,4 +1,4 @@
-import { Task } from "@components";
+import { Task, DeletePopOver } from "@components";
 import DataContext from "@context/data-context";
 import { DEFAULT_TASK } from "@utils";
 import { useContext } from "react";
@@ -14,6 +14,15 @@ import { produce } from "immer";
 
 export function Column({ id, title, tasks = [] }) {
   const { setData, selectedBoardIndex } = useContext(DataContext);
+
+  const deleteColumnHandler = () =>
+    setData((prev) =>
+      produce(prev, (draft) => {
+        draft[selectedBoardIndex].columns = draft[
+          selectedBoardIndex
+        ].columns.filter((c) => c.id !== id);
+      }),
+    );
 
   const addNewTaskHandler = () =>
     setData((prev) =>
@@ -31,11 +40,19 @@ export function Column({ id, title, tasks = [] }) {
     );
 
   return (
-    <article className="bg-lines-light flex w-72 shrink-0 flex-col gap-6 self-start rounded-lg px-2 py-4 shadow">
-      <h2 className="text-heading-s group/column text-medium-grey bg-lines-light relative top-0 rounded px-2 font-bold tracking-widest uppercase">
-        {title}
-        <span className="text-main-blue ml-1.5">({tasks.length})</span>
-      </h2>
+    <article className="bg-lines-light group/article flex w-72 shrink-0 flex-col gap-6 self-start rounded-lg px-2 shadow">
+      <div className="flex justify-between px-2 pt-4">
+        <h2 className="text-heading-s group/column text-medium-grey bg-lines-light relative top-0 rounded font-bold tracking-widest uppercase">
+          {title}
+          <span className="text-main-blue ml-1.5">({tasks.length})</span>
+        </h2>
+        <DeletePopOver
+          parent="article"
+          deleteHandler={deleteColumnHandler}
+          title={title}
+        />
+      </div>
+
       <div className="mb-2 flex h-[calc(100vh-380px)] flex-col gap-5 overflow-y-auto pr-3">
         {tasks.map((task) => (
           <Task
