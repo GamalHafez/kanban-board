@@ -32,7 +32,7 @@ export function Header() {
 
   return (
     <header className="text-main-blue border-lines-light flex h-[97px] shrink-0 items-center border-b bg-white capitalize">
-      <h1 className="border-lines-light flex w-[300px] items-center gap-4 self-stretch border-r border-b pl-8 text-[32px] font-bold">
+      <h1 className="border-lines-light flex w-[280px] items-center gap-4 self-stretch border-r border-b pl-8 text-[32px] font-bold">
         Kanban
       </h1>
       <div className="border-lines-light flex flex-1 items-center justify-between self-stretch border-b pr-6 pl-6">

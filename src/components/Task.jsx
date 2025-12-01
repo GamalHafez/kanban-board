@@ -1,3 +1,5 @@
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { DeletePopOver } from "@components";
 import { produce } from "immer";
 import DataContext from "@context/data-context";
@@ -15,6 +17,8 @@ import { useUpdateTask } from "@utils";
  */
 
 export function Task({ title, id, colId, description }) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id, data: { colId } });
   const { setData, selectedBoardIndex } = useContext(DataContext);
   const updateTask = useUpdateTask({ selectedBoardIndex, colId, id, setData });
   const [taskTitle, setTaskTitle] = useState(title);
@@ -41,8 +45,19 @@ export function Task({ title, id, colId, description }) {
 
   const onFocusHandler = (e) => e.currentTarget.select();
 
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   return (
-    <div className="group/card flex min-h-16 transform justify-between rounded-lg bg-white px-4 py-3 shadow-sm duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-lg">
+    <div
+      className="group/card flex min-h-16 cursor-pointer justify-between rounded-lg bg-white px-4 py-3 shadow-sm"
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
       <div className="flex flex-col gap-2">
         <input
           type="text"

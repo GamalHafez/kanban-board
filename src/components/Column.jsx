@@ -52,7 +52,7 @@ export function Column({ id, title, tasks = [] }) {
         />
       </div>
 
-      <div className="mb-2 flex h-[calc(100vh-380px)] flex-col gap-5 overflow-y-auto pr-3">
+      <div className="mb-2 flex flex-col gap-5 pr-3">
         {tasks.map((task) => (
           <Task
             key={task.id}

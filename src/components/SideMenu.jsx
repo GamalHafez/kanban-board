@@ -19,7 +19,7 @@ export function SideMenu() {
     useContext(DataContext);
 
   return (
-    <aside className="side-menu border-Lines-Light border-lines-light -mt-px w-[300px] border-r bg-white">
+    <aside className="side-menu border-Lines-Light border-lines-light -mt-px w-[280px] border-r bg-white">
       <p className="text-heading-s text-medium-grey my-3 px-8 py-4 font-semibold tracking-widest uppercase">
         All Boards
         <span className="text-main-blue ml-1.5 font-bold">({data.length})</span>

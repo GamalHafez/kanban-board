@@ -27,7 +27,7 @@
   - [x] Add new Column
   - [x] Delete Column
   - [x] Edit task
-  - [ ] Drag and drop tasks
+  - [x] Drag and drop tasks
 - Optional Updates to do:
   - [x] Pass `boardName` as a prop from `App.jsx` to the `Header` component to display the current board title.
   - [ ] Persist the selected board index in `localStorage` and load it on app startup.
