@@ -1,12 +1,17 @@
 import * as Popover from "@radix-ui/react-popover";
+import { DELETE_VARIANTS } from "@utils";
+import deleteImg from "@assets/delete.png";
 
 export function DeletePopOver({ deleteHandler, parent, title }) {
   return (
     <Popover.Root>
       <Popover.Trigger
-        className={`text-red text-heading-s invisible cursor-pointer font-semibold group-hover/${parent}:visible hover:font-bold`}
+        className={
+          parent &&
+          `invisible col-start-2 row-span-full w-8 cursor-pointer self-start justify-self-end rounded-full p-2 hover:bg-red-100 ${DELETE_VARIANTS[parent]}`
+        }
       >
-        Delete
+        <img src={deleteImg} alt="" />
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Content className="w-48 rounded-lg border border-gray-200 bg-blue-100 p-4 shadow-lg">

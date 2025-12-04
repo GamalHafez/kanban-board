@@ -1,6 +1,7 @@
 const getColIndex = (cols, colId) => cols.findIndex((c) => c.id === colId);
 
-const getTaskIndex = (tasks, taskId) => tasks.findIndex((t) => t.id === taskId);
+const getTaskIndex = (tasks, taskId) =>
+  tasks && tasks.findIndex((t) => t.id === taskId);
 
 // Extract all required IDs and indexes for active and over tasks from the DnD event.
 export const getDragData = (e, board) => {
@@ -11,12 +12,14 @@ export const getDragData = (e, board) => {
   const activeId = e?.active?.id;
   const activeIdx = getTaskIndex(activeColTasks, activeId);
   const activeTask = activeColTasks[activeIdx];
+  const activeSetRows = e?.active?.data?.current?.setRows;
 
   // get needed Over Data:?
   const overColId = e?.over?.data?.current?.colId;
   const overColIdx = getColIndex(board?.columns, overColId);
   const overId = e?.over?.id;
   const overIdx = getTaskIndex(board?.columns[overColIdx]?.tasks, overId);
+  const overRows = e?.over?.data?.current?.rows;
 
   return {
     active: {
@@ -25,12 +28,28 @@ export const getDragData = (e, board) => {
       task: activeTask,
       colId: activeColId,
       colIdx: activeColIdx,
+      setRows: activeSetRows,
     },
     over: {
       id: overId,
       idx: overIdx,
       colId: overColId,
       colIdx: overColIdx,
+      rows: overRows,
     },
   };
+};
+
+// Calculate rows needed based on character length
+export const calculateRows = (text, charsPerLine = 20) => {
+  if (!text) return 1;
+  return Math.ceil(text.length / charsPerLine);
+};
+
+export const adjustRows = (el, key, setRows) => {
+  if (!el) return;
+
+  const lineHeight = parseFloat(getComputedStyle(el).lineHeight);
+  const neededRows = Math.ceil(el.scrollHeight / lineHeight);
+  setRows((prev) => ({ ...prev, [key]: neededRows }));
 };

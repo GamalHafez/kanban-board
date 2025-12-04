@@ -6,6 +6,7 @@
   --font-jakarta: "Plus Jakarta Sans", sans-serif;
 
   /* Heading */
+  --text-heading-delete: 0.75rem;
   --text-heading-s: 0.8rem;
   --text-heading-s-font-weight: 700;
   --text-heading-xs: 0.85rem;

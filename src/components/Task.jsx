@@ -3,8 +3,8 @@ import { CSS } from "@dnd-kit/utilities";
 import { DeletePopOver } from "@components";
 import { produce } from "immer";
 import DataContext from "@context/data-context";
-import { useContext, useState } from "react";
-import { useUpdateTask } from "@utils";
+import { useContext, useEffect, useRef, useState } from "react";
+import { adjustRows, useUpdateTask } from "@utils";
 
 /**
  *
@@ -17,12 +17,22 @@ import { useUpdateTask } from "@utils";
  */
 
 export function Task({ title, id, colId, description }) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id, data: { colId } });
-  const { setData, selectedBoardIndex } = useContext(DataContext);
-  const updateTask = useUpdateTask({ selectedBoardIndex, colId, id, setData });
   const [taskTitle, setTaskTitle] = useState(title);
   const [taskDescription, setTaskDescription] = useState(description);
+  const titleRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const [rows, setRows] = useState({ title: 1, desc: 1 });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    dragJustEnded,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id, data: { colId, rows, setRows } });
+  const { setData, selectedBoardIndex } = useContext(DataContext);
+  const updateTask = useUpdateTask({ selectedBoardIndex, colId, id, setData });
 
   const deleteTaskHandler = () =>
     setData((prev) =>
@@ -43,6 +53,11 @@ export function Task({ title, id, colId, description }) {
     updateTask(key, value);
   };
 
+  useEffect(() => {
+    adjustRows(titleRef.current, "title", setRows);
+    adjustRows(descriptionRef.current, "desc", setRows);
+  }, [isDragging, dragJustEnded, taskTitle, taskDescription]);
+
   const onFocusHandler = (e) => e.currentTarget.select();
 
   const style = {
@@ -52,32 +67,36 @@ export function Task({ title, id, colId, description }) {
 
   return (
     <div
-      className="group/card flex min-h-16 cursor-pointer justify-between rounded-lg bg-white px-4 py-3 shadow-sm"
+      className="group/card dragging grid cursor-pointer grid-cols-[6fr_1fr] rounded-lg bg-white px-4 py-3 shadow-sm"
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
     >
       <div className="flex flex-col gap-2">
-        <input
-          type="text"
+        <textarea
+          ref={titleRef}
+          rows={rows?.title}
           placeholder="Edit title..."
           name={id}
           value={taskTitle}
+          disabled={isDragging}
           onChange={(e) => changeTaskHandler(e, setTaskTitle, "title")}
           onFocus={onFocusHandler}
-          className="group-hover/card:text-main-blue font-bold text-gray-800 outline-0 transition-colors duration-300"
+          className="group-hover/card:text-main-blue resize-none font-bold text-gray-800 outline-0 transition-colors duration-300 placeholder:text-gray-500"
         />
-        <input
-          type="text"
+        <textarea
+          ref={descriptionRef}
+          rows={rows?.desc}
           placeholder="Edit description..."
           name={id}
           value={taskDescription}
           onChange={(e) =>
             changeTaskHandler(e, setTaskDescription, "description")
           }
+          disabled={isDragging}
           onFocus={onFocusHandler}
-          className="text-heading-s text-gray-600 outline-0 transition-colors duration-300 group-hover/card:text-gray-800"
+          className="text-heading-s resize-none text-gray-600 outline-0 transition-colors duration-300 group-hover/card:text-gray-800"
         />
       </div>
       <DeletePopOver

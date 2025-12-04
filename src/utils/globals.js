@@ -17,3 +17,8 @@ export const DIALOG_DATA = {
     description: "Are you sure you want to delete this board?",
   },
 };
+
+export const DELETE_VARIANTS = {
+  card: "group-hover/card:visible",
+  article: "group-hover/article:visible",
+};

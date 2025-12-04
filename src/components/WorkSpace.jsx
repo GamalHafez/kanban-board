@@ -14,7 +14,7 @@ import {
 } from "@dnd-kit/sortable";
 import { Column, DialogPrimitive, EditBoardForm } from "@components";
 import DataContext from "@context/data-context";
-import { EDIT_MODES, getDragData } from "@utils";
+import { calculateRows, EDIT_MODES, getDragData } from "@utils";
 import { useContext, useMemo, useState } from "react";
 import { produce } from "immer";
 
@@ -33,6 +33,13 @@ export function WorkSpace() {
     const { active, over } = getDragData(e, data[selectedBoardIndex]);
     if (active.id === over.id) return;
 
+    const setRows = active.setRows;
+    setRows((prev) => ({
+      ...prev,
+      title: calculateRows(active.task.title),
+      desc: calculateRows(active.task.description, 26.5),
+    }));
+
     // Handle reordering when dragging within the same column.
     if (active.colId === over.colId) {
       setData((prev) =>
@@ -46,7 +53,17 @@ export function WorkSpace() {
 
   const onDragOverHandler = (e) => {
     const { active, over } = getDragData(e, data[selectedBoardIndex]);
-    if (active.id === over.id) return;
+    if (!e.delta.x && !e.delta.y) return;
+
+    /* While dragging, adapt the dragged task's row count to mimic the size
+      of whatever task it's hovering over. This gives smoother visual slotting
+      and prevents the layout from "jumping" as the placeholder shifts. */
+    const setRows = active.setRows;
+    setRows((prev) => ({
+      ...prev,
+      title: over.rows.title,
+      desc: over.rows.desc,
+    }));
 
     // Handle moving a task between two different columns.
     if (active.colId !== over.colId) {
