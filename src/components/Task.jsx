@@ -16,7 +16,7 @@ import { adjustRows, useUpdateTask } from "@utils";
  * @returns {JSX.Element}
  */
 
-export function Task({ title, id, colId, description }) {
+export function Task({ title, id, colId, description, isPlaceHolder }) {
   const [taskTitle, setTaskTitle] = useState(title);
   const [taskDescription, setTaskDescription] = useState(description);
   const titleRef = useRef(null);
@@ -64,6 +64,10 @@ export function Task({ title, id, colId, description }) {
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  if (isPlaceHolder) {
+    return <div ref={setNodeRef} className="pointer-events-none opacity-0" />;
+  }
 
   return (
     <div

@@ -7,15 +7,11 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import {
-  SortableContext,
-  arrayMove,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import { arrayMove } from "@dnd-kit/sortable";
 import { Column, DialogPrimitive, EditBoardForm } from "@components";
 import DataContext from "@context/data-context";
 import { calculateRows, EDIT_MODES, getDragData } from "@utils";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useState } from "react";
 import { produce } from "immer";
 
 export function WorkSpace() {
@@ -34,11 +30,12 @@ export function WorkSpace() {
     if (active.id === over.id) return;
 
     const setRows = active.setRows;
-    setRows((prev) => ({
-      ...prev,
-      title: calculateRows(active.task.title),
-      desc: calculateRows(active.task.description, 26.5),
-    }));
+    setRows &&
+      setRows((prev) => ({
+        ...prev,
+        title: calculateRows(active.task.title),
+        desc: calculateRows(active.task.description, 26.5),
+      }));
 
     // Handle reordering when dragging within the same column.
     if (active.colId === over.colId) {
@@ -59,11 +56,12 @@ export function WorkSpace() {
       of whatever task it's hovering over. This gives smoother visual slotting
       and prevents the layout from "jumping" as the placeholder shifts. */
     const setRows = active.setRows;
-    setRows((prev) => ({
-      ...prev,
-      title: over.rows.title,
-      desc: over.rows.desc,
-    }));
+    setRows &&
+      setRows((prev) => ({
+        ...prev,
+        title: over.rows.title,
+        desc: over.rows.desc,
+      }));
 
     // Handle moving a task between two different columns.
     if (active.colId !== over.colId) {
@@ -78,14 +76,6 @@ export function WorkSpace() {
     }
   };
 
-  const tasksIds = useMemo(
-    () =>
-      data[selectedBoardIndex]?.columns.flatMap((col) =>
-        col.tasks.map((t) => t.id),
-      ),
-    [data, selectedBoardIndex],
-  );
-
   return (
     <DndContext
       sensors={sensors}
@@ -94,19 +84,14 @@ export function WorkSpace() {
       onDragOver={onDragOverHandler}
     >
       <section className="bg-light-grey flex h-[calc(100vh-97px)] flex-1 gap-6 overflow-auto p-6">
-        <SortableContext
-          items={tasksIds}
-          strategy={verticalListSortingStrategy}
-        >
-          {data[selectedBoardIndex]?.columns.map((column) => (
-            <Column
-              key={column.id}
-              id={column.id}
-              title={column.title}
-              tasks={column.tasks}
-            />
-          ))}
-        </SortableContext>
+        {data[selectedBoardIndex]?.columns.map((column) => (
+          <Column
+            key={column.id}
+            id={column.id}
+            title={column.title}
+            tasks={column.tasks}
+          />
+        ))}
         <DialogPrimitive
           title="Add new Column"
           description="Add a new column to organize your tasks."

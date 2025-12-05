@@ -5,21 +5,27 @@ const getTaskIndex = (tasks, taskId) =>
 
 // Extract all required IDs and indexes for active and over tasks from the DnD event.
 export const getDragData = (e, board) => {
-  // get needed Active Data:
+  // --- Active
   const activeColId = e?.active?.data?.current?.colId;
   const activeColIdx = getColIndex(board?.columns, activeColId);
   const activeColTasks = board?.columns[activeColIdx]?.tasks;
   const activeId = e?.active?.id;
   const activeIdx = getTaskIndex(activeColTasks, activeId);
-  const activeTask = activeColTasks[activeIdx];
+  const activeTask = activeColTasks?.[activeIdx];
   const activeSetRows = e?.active?.data?.current?.setRows;
 
-  // get needed Over Data:?
+  // --- Over
   const overColId = e?.over?.data?.current?.colId;
   const overColIdx = getColIndex(board?.columns, overColId);
   const overId = e?.over?.id;
-  const overIdx = getTaskIndex(board?.columns[overColIdx]?.tasks, overId);
+  const overIsPlaceholder =
+    typeof overId === "string" && overId.startsWith("placeholder-");
+  const overIdx = overIsPlaceholder
+    ? 0 // always insert at index 0
+    : getTaskIndex(board?.columns[overColIdx]?.tasks, overId);
   const overRows = e?.over?.data?.current?.rows;
+
+  const overIsColumn = !overColId; // empty column
 
   return {
     active: {
@@ -36,6 +42,7 @@ export const getDragData = (e, board) => {
       colId: overColId,
       colIdx: overColIdx,
       rows: overRows,
+      isColumn: overIsColumn,
     },
   };
 };

@@ -2,6 +2,10 @@ import { Task, DeletePopOver } from "@components";
 import DataContext from "@context/data-context";
 import { useContext } from "react";
 import { produce } from "immer";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 /**
  * @param {Object} props
@@ -38,6 +42,10 @@ export function Column({ id, title, tasks = [] }) {
       }),
     );
 
+  const tasksIds = tasks.length
+    ? tasks.map((t) => t.id)
+    : [`placeholder-${id}`];
+
   return (
     <article className="bg-lines-light group/article flex w-72 shrink-0 flex-col gap-6 self-start rounded-lg px-2 shadow">
       <div className="flex justify-between px-2 pt-4">
@@ -51,18 +59,28 @@ export function Column({ id, title, tasks = [] }) {
           title={title}
         />
       </div>
-
-      <div className="mb-2 flex flex-col gap-5 pr-3">
-        {tasks.map((task) => (
-          <Task
-            key={task.id}
-            id={task.id}
-            colId={id}
-            title={task.title}
-            description={task.description}
-          />
-        ))}
-      </div>
+      <SortableContext items={tasksIds} strategy={verticalListSortingStrategy}>
+        <div className="mb-2 flex flex-col gap-5 pr-3">
+          {tasks.length ? (
+            tasks.map((task) => (
+              <Task
+                key={task.id}
+                id={task.id}
+                colId={id}
+                title={task.title}
+                description={task.description}
+              />
+            ))
+          ) : (
+            <Task
+              isPlaceHolder
+              key={`placeholder-${id}`}
+              id={`placeholder-${id}`}
+              colId={id}
+            />
+          )}
+        </div>
+      </SortableContext>
       <button
         type="button"
         onClick={addNewTaskHandler}
