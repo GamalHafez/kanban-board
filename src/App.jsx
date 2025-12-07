@@ -1,4 +1,5 @@
-import { Header, SideMenu, WorkSpace } from "@components";
+import { Header, WorkSpace } from "./components/workspace";
+import { SideMenu } from "@components/board";
 import AppContext from "@context/AppContext.jsx";
 
 export default function App() {

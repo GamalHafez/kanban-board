@@ -1,4 +1,4 @@
-import { Button, Label, TextField } from "@components";
+import { Button, Label, TextField } from "@components/ui";
 import cancelIcon from "@assets/icon-cross.svg";
 import { useContext, useReducer, useState } from "react";
 import DataContext from "@context/data-context";

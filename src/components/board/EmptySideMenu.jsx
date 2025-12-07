@@ -1,5 +1,6 @@
 import { EDIT_MODES } from "@utils";
-import { DialogPrimitive, EditBoardForm } from "@components";
+import { EditBoardForm } from "@components/board";
+import { DialogPrimitive } from "@components/ui";
 import DataContext from "@context/data-context.js";
 import { useContext, useState } from "react";
 import defaultData from "@/data.json";

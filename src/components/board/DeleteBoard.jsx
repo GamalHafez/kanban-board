@@ -1,4 +1,4 @@
-import { Button } from "@components";
+import { Button } from "@components/ui";
 import { useContext } from "react";
 import DataContext from "@context/data-context";
 

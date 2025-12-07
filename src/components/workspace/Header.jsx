@@ -1,9 +1,5 @@
-import {
-  DeleteBoard,
-  DialogPrimitive,
-  DropdownPrimitive,
-  EditBoardForm,
-} from "@components";
+import { DeleteBoard, EditBoardForm } from "@components/board";
+import { DialogPrimitive, DropdownPrimitive } from "@components/ui";
 import iconVerticalEllipsis from "@assets/icon-vertical-ellipsis.svg";
 import { useContext, useState } from "react";
 import DataContext from "@context/data-context.js";

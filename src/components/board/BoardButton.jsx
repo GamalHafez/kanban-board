@@ -1,4 +1,4 @@
-import { BoardSvg } from "@components";
+import { BoardSvg } from "@components/board";
 import clsx from "clsx";
 
 const BOARD_BUTTON_CLSX = (isSelected) =>

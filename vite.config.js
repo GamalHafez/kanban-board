@@ -13,9 +13,16 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
       "@assets": path.resolve(__dirname, "./src/assets"),
-      "@components": path.resolve(__dirname, "./src/components"),
       "@context": path.resolve(__dirname, "./src/context"),
       "@utils": path.resolve(__dirname, "./src/utils"),
+      "@hooks": path.resolve(__dirname, "./src/hooks"),
+      "@components": path.resolve(__dirname, "./src/components"),
+      "@components/ui": path.resolve(__dirname, "./src/components/ui"),
+      "@components/board": path.resolve(__dirname, "./src/components/board"),
+      "@components/workspace": path.resolve(
+        __dirname,
+        "./src/components/workspace",
+      ),
     },
   },
 });

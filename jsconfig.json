@@ -3,9 +3,13 @@
     "paths": {
       "@": ["./src"],
       "@assets": ["./src/assets"],
-      "@components": ["./src/components"],
       "@context": ["./src/context"],
-      "@utils": ["./src/utils"]
+      "@utils": ["./src/utils"],
+      "@hooks": ["./src/hooks"],
+      "@components": ["./src/components"],
+      "@components/ui": ["./src/components/ui"],
+      "@components/board": ["./src/components/board"],
+      "@components/workspace": ["./src/components/workspace"]
     }
   }
 }

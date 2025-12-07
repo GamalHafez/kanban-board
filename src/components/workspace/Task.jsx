@@ -1,10 +1,11 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { DeletePopOver } from "@components";
+import { DeletePopOver } from "@components/ui";
 import { produce } from "immer";
 import DataContext from "@context/data-context";
 import { useContext, useEffect, useRef, useState } from "react";
-import { adjustRows, useUpdateTask } from "@utils";
+import { adjustRows } from "@utils";
+import { useUpdateTask } from "@hooks";
 
 /**
  *

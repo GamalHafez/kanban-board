@@ -8,12 +8,9 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
-import {
-  Column,
-  DialogPrimitive,
-  EditBoardForm,
-  EmptyWorkSpace,
-} from "@components";
+import { Column, EmptyWorkSpace } from "@components/workspace";
+import { DialogPrimitive } from "@components/ui";
+import { EditBoardForm } from "@components/board";
 import DataContext from "@context/data-context";
 import { calculateRows, EDIT_MODES, getDragData } from "@utils";
 import { useContext, useState } from "react";

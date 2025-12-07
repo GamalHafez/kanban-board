@@ -1,4 +1,5 @@
-import { Task, DeletePopOver } from "@components";
+import { Task } from "@components/workspace";
+import { DeletePopOver } from "@components/ui";
 import DataContext from "@context/data-context";
 import { useContext } from "react";
 import { produce } from "immer";

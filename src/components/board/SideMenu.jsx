@@ -1,10 +1,10 @@
 import {
   BoardButton,
   BoardSvg,
-  DialogPrimitive,
   EditBoardForm,
   EmptySideMenu,
-} from "@components";
+} from "@components/board";
+import { DialogPrimitive } from "@components/ui";
 import { useContext, useState } from "react";
 import DataContext from "@context/data-context";
 import { EDIT_MODES } from "@utils";
