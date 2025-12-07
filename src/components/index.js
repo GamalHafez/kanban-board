@@ -13,3 +13,5 @@ export * from "./EditBoardForm";
 export * from "./Label";
 export * from "./DeleteBoard";
 export * from "./DeletePopOver";
+export * from "./EmptyWorkSpace";
+export * from "./EmptySideMenu";

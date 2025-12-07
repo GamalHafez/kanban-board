@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 import DataContext from "@context/data-context.js";
 import { APP_KEYS, loadFromStorage, saveToStorage } from "@utils";
-import defaultData from "@/data.json";
 
 export default function AppContext({ children }) {
-  const [data, setData] = useState(
-    loadFromStorage(APP_KEYS.BOARDS, defaultData),
-  );
+  const [data, setData] = useState(loadFromStorage(APP_KEYS.BOARDS, []));
   const [selectedBoardIndex, setSelectedBoardIndex] = useState(
     loadFromStorage(APP_KEYS.BOARD_IDX, 0),
   );

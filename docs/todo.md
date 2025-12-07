@@ -31,4 +31,4 @@
 - Optional Updates to do:
   - [x] Pass `boardName` as a prop from `App.jsx` to the `Header` component to display the current board title.
   - [x] Persist the selected board index in `localStorage` and load it on app startup.
-  - [ ] Handle edit/delete buttons gracefully when no board is selected (disable them or hide them to avoid undefined behavior).
+  - [x] Handle edit/delete buttons gracefully when no board is selected (disable them or hide them to avoid undefined behavior).

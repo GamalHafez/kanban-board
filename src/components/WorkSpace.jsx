@@ -8,7 +8,12 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
-import { Column, DialogPrimitive, EditBoardForm } from "@components";
+import {
+  Column,
+  DialogPrimitive,
+  EditBoardForm,
+  EmptyWorkSpace,
+} from "@components";
 import DataContext from "@context/data-context";
 import { calculateRows, EDIT_MODES, getDragData } from "@utils";
 import { useContext, useState } from "react";
@@ -76,6 +81,13 @@ export function WorkSpace() {
     }
   };
 
+  // Empty state: no boards exist
+  if (!data.length) return <EmptyWorkSpace />;
+  const board = data[selectedBoardIndex];
+  // Empty state: invalid or missing board
+  if (!board) return <EmptyWorkSpace />;
+
+  // Normal workspace (boards exist)
   return (
     <DndContext
       sensors={sensors}

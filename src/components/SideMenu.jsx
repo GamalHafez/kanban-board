@@ -3,6 +3,7 @@ import {
   BoardSvg,
   DialogPrimitive,
   EditBoardForm,
+  EmptySideMenu,
 } from "@components";
 import { useContext, useState } from "react";
 import DataContext from "@context/data-context";
@@ -18,6 +19,13 @@ export function SideMenu() {
   const { data, selectedBoardIndex, setSelectedBoardIndex } =
     useContext(DataContext);
 
+  // Empty state: no boards exist
+  if (!data.length) return <EmptySideMenu />;
+  const board = data[selectedBoardIndex];
+  // Empty state: invalid or missing board
+  if (!board) return <EmptySideMenu />;
+
+  // Normal workspace (boards exist)
   return (
     <aside className="side-menu border-Lines-Light border-lines-light -mt-px w-[280px] border-r bg-white">
       <p className="text-heading-s text-medium-grey my-3 px-8 py-4 font-semibold tracking-widest uppercase">
@@ -36,7 +44,7 @@ export function SideMenu() {
         ))}
         <li>
           <DialogPrimitive
-            title="Create New Board"
+            title="Create a New Board"
             description="Create a new board to organize your tasks."
             isOpen={open}
             setOpen={setOpen}

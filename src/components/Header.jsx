@@ -8,6 +8,7 @@ import iconVerticalEllipsis from "@assets/icon-vertical-ellipsis.svg";
 import { useContext, useState } from "react";
 import DataContext from "@context/data-context.js";
 import { DIALOG_DATA, EDIT_MODES } from "@utils";
+import logo from "@assets/kanban.png";
 
 export function Header() {
   const { selectedBoardIndex, data } = useContext(DataContext);
@@ -32,41 +33,53 @@ export function Header() {
 
   return (
     <header className="text-main-blue border-lines-light flex h-[97px] shrink-0 items-center border-b bg-white capitalize">
-      <h1 className="border-lines-light flex w-[280px] items-center gap-4 self-stretch border-r border-b pl-8 text-[32px] font-bold">
+      <h1 className="border-lines-light flex w-[280px] items-center gap-3 self-stretch border-r border-b pl-8 text-[32px] font-bold">
+        <img src={logo} alt="Kanban logo" />
         Kanban
       </h1>
       <div className="border-lines-light flex flex-1 items-center justify-between self-stretch border-b pr-6 pl-6">
-        <h2 className="text-heading-xl font-semibold">
-          {data[selectedBoardIndex]?.title}
-        </h2>
-        <DropdownPrimitive
-          items={dropDownItems}
-          triggerComponent={() => (
-            <button
-              aria-label="Board Options"
-              className="cursor-pointer rounded-full p-4 outline-0 hover:bg-gray-200"
-            >
-              <img src={iconVerticalEllipsis} alt="Icon vertical ellipsis" />
-            </button>
-          )}
-        />
-        <DialogPrimitive
-          dialogType={dialogMode.key}
-          title={dialogMode.title}
-          isOpen={open}
-          setOpen={setOpen}
-          description={dialogMode.description}
-        >
-          {dialogMode.key === DIALOG_DATA.DELETE.key ? (
-            <DeleteBoard dialogToggle={setOpen} />
-          ) : (
-            <EditBoardForm
-              selectedBoard={data[selectedBoardIndex]}
-              setOpen={setOpen}
-              editMode={EDIT_MODES.EDIT}
+        {data.length | data[selectedBoardIndex] ? (
+          <>
+            <h2 className="text-heading-xl font-semibold">
+              {data[selectedBoardIndex]?.title}
+            </h2>
+            <DropdownPrimitive
+              items={dropDownItems}
+              triggerComponent={() => (
+                <button
+                  aria-label="Board Options"
+                  className="cursor-pointer rounded-full p-4 outline-0 hover:bg-gray-200"
+                >
+                  <img
+                    src={iconVerticalEllipsis}
+                    alt="Icon vertical ellipsis"
+                  />
+                </button>
+              )}
             />
-          )}
-        </DialogPrimitive>
+            <DialogPrimitive
+              dialogType={dialogMode.key}
+              title={dialogMode.title}
+              isOpen={open}
+              setOpen={setOpen}
+              description={dialogMode.description}
+            >
+              {dialogMode.key === DIALOG_DATA.DELETE.key ? (
+                <DeleteBoard dialogToggle={setOpen} />
+              ) : (
+                <EditBoardForm
+                  selectedBoard={data[selectedBoardIndex]}
+                  setOpen={setOpen}
+                  editMode={EDIT_MODES.EDIT}
+                />
+              )}
+            </DialogPrimitive>
+          </>
+        ) : (
+          <h2 className="text-heading-xl m-auto font-semibold text-gray-600">
+            Empty Workspace
+          </h2>
+        )}
       </div>
     </header>
   );
