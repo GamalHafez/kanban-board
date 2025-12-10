@@ -27,8 +27,8 @@ export function SideMenu() {
 
   // Normal workspace (boards exist)
   return (
-    <aside className="side-menu border-Lines-Light border-lines-light -mt-px w-[280px] border-r bg-white">
-      <p className="text-heading-s text-medium-grey my-3 px-8 py-4 font-semibold tracking-widest uppercase">
+    <aside className="side-menu border-Lines-Light border-lines-light -mt-px w-fit border-r bg-white lg:w-[280px]">
+      <p className="text-heading-s text-medium-grey px-8 py-5 font-semibold tracking-widest uppercase lg:my-3 lg:px-8 lg:py-4">
         All Boards
         <span className="text-main-blue ml-1.5 font-bold">({data.length})</span>
       </p>
@@ -49,7 +49,7 @@ export function SideMenu() {
             isOpen={open}
             setOpen={setOpen}
             triggerComponent={
-              <button className="text-heading-n text-main-blue flex w-full cursor-pointer items-center gap-4 px-8 py-3.5 font-bold">
+              <button className="text-heading-n text-main-blue flex w-full cursor-pointer items-center gap-4 px-8 py-4 font-bold lg:py-3.5">
                 <BoardSvg color="blue" />+ Create New Board
               </button>
             }

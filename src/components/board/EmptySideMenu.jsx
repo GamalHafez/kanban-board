@@ -12,7 +12,7 @@ export function EmptySideMenu() {
   const onPushDefault = () => setData(defaultData);
 
   return (
-    <aside className="side-menu border-lines-light -mt-px flex w-[280px] flex-col items-center justify-center gap-4 border-r bg-white p-6">
+    <aside className="side-menu border-lines-light -mt-px flex w-[280px] flex-col items-center justify-center gap-4 border-r p-6 lg:bg-white">
       <h2 className="text-heading-xl text-center font-semibold text-gray-600">
         Start Quickly
       </h2>

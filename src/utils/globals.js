@@ -16,6 +16,9 @@ export const DIALOG_DATA = {
     title: "Delete this Board?",
     description: "Are you sure you want to delete this board?",
   },
+  MOBILE_MENU: {
+    key: "mobileMenu",
+  },
 };
 
 export const DELETE_VARIANTS = {

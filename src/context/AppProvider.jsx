@@ -3,12 +3,11 @@ import DataContext from "@context/data-context.js";
 import { APP_KEYS, loadFromStorage, saveToStorage } from "@utils";
 import { useMediaQuery } from "@uidotdev/usehooks";
 
-export default function AppContext({ children }) {
+export function AppProvider({ children }) {
   const [data, setData] = useState(loadFromStorage(APP_KEYS.BOARDS, []));
   const [selectedBoardIndex, setSelectedBoardIndex] = useState(
     loadFromStorage(APP_KEYS.BOARD_IDX, 0),
   );
-
   const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
 
   // Update localStorage whenever data or selectedBoardIndex change

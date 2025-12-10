@@ -4,5 +4,8 @@ import { createContext } from "react";
 
 export default createContext({
   data: [],
-  setData: () => {}, // placeholder, does nothing
+  setData: () => {},
+  selectedBoardIndex: 0,
+  setSelectedBoardIndex: () => {},
+  isSmallDevice: false,
 });
