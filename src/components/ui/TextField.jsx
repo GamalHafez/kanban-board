@@ -13,7 +13,7 @@ import clsx from "clsx";
 
 export function TextField({ isInvalid, name, ...props }) {
   return (
-    <div className="relative flex flex-1 flex-col gap-1 lg:min-w-80">
+    <div className="relative flex flex-1 flex-col gap-1 md:min-w-80 lg:min-w-80">
       {isInvalid && (
         <span className="text-body-l text-red absolute top-1/2 right-4 -translate-y-1/2 font-bold">
           Can’t be empty

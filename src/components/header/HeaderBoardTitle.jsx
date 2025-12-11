@@ -35,7 +35,7 @@ export function HeaderBoardTitle() {
           triggerComponent={
             <button
               aria-label="Board Dialog"
-              className="cursor-pointer outline-0 hover:bg-gray-200 lg:rounded-full lg:p-4"
+              className="cursor-pointer outline-0 hover:bg-gray-200"
             >
               <img src={open ? arrowUp : arrowDown} alt="Arrow Icon down" />
             </button>

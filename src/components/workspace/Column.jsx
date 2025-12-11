@@ -61,7 +61,7 @@ export function Column({ id, title, tasks = [] }) {
         />
       </div>
       <SortableContext items={tasksIds} strategy={verticalListSortingStrategy}>
-        <div className="mb-2 flex flex-col gap-5 pr-3">
+        <div className="mb-2 flex flex-col gap-5 px-3">
           {tasks.length ? (
             tasks.map((task) => (
               <Task

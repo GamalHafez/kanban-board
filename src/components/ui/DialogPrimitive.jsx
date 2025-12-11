@@ -30,7 +30,7 @@ export const DialogPrimitive = ({
         <Dialog.Overlay className="data-[state=open]:animate-overlayShow fixed inset-0 bg-black/50" />
         <Dialog.Content
           className={clsx(
-            "font-jakarta data-[state=open]:animate-contentShow border-main-blue fixed top-20 left-1/2 max-h-[85vh] w-[280px] -translate-x-1/2 overflow-auto rounded-md border-t-4 bg-white p-8 focus:outline-none lg:w-[480px]",
+            "font-jakarta data-[state=open]:animate-contentShow border-main-blue fixed top-20 left-1/2 max-h-[85vh] w-[280px] -translate-x-1/2 overflow-auto rounded-md border-t-4 bg-white p-8 focus:outline-none md:w-[480px] lg:w-[480px]",
             {
               "border-red": dialogType === DIALOG_DATA.DELETE.key,
               "top-16 p-0!": dialogType === DIALOG_DATA.MOBILE_MENU.key,
