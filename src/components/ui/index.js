@@ -4,3 +4,4 @@ export * from "./Label";
 export * from "./DropdownPrimitive";
 export * from "./DialogPrimitive";
 export * from "./DeletePopOver";
+export * from "./DragGrip";

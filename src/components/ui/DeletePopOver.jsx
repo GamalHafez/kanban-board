@@ -8,7 +8,7 @@ export function DeletePopOver({ deleteHandler, parent, title }) {
       <Popover.Trigger
         className={
           parent &&
-          `invisible col-start-2 row-span-full w-8 cursor-pointer self-start justify-self-end rounded-full p-2 hover:bg-red-100 ${DELETE_VARIANTS[parent]}`
+          `col-start-2 row-span-full w-7 cursor-pointer self-start justify-self-end rounded-full p-2 hover:bg-red-100 lg:invisible lg:w-8 ${DELETE_VARIANTS[parent]}`
         }
       >
         <img src={deleteImg} alt="" />

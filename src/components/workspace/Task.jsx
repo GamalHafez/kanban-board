@@ -1,6 +1,6 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { DeletePopOver } from "@components/ui";
+import { DeletePopOver, DragGrip } from "@components/ui";
 import { produce } from "immer";
 import DataContext from "@context/data-context";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -72,12 +72,12 @@ export function Task({ title, id, colId, description, isPlaceHolder }) {
 
   return (
     <div
-      className="group/card dragging grid cursor-pointer grid-cols-[6fr_1fr] rounded-lg bg-white px-4 py-3 shadow-sm"
+      className="group/card dragging relative grid cursor-pointer grid-cols-[6fr_1fr] rounded-lg bg-white px-4 py-3 shadow-sm"
       ref={setNodeRef}
       style={style}
       {...attributes}
-      {...listeners}
     >
+      <DragGrip listeners={{ ...listeners }} />
       <div className="flex flex-col gap-2">
         <textarea
           ref={titleRef}
