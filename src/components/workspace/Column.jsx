@@ -1,4 +1,4 @@
-import { Task } from "@components/workspace";
+import { Task } from "@components/task";
 import { DeletePopOver } from "@components/ui";
 import DataContext from "@context/data-context";
 import { useContext } from "react";
