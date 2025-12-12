@@ -21,12 +21,10 @@ export function HeaderBoardTitle() {
     return () => clearTimeout(timeout);
   }, [selectedBoardIndex]);
 
+  const title = data[selectedBoardIndex]?.title || "Empty Workspace...";
+
   return (
     <div className="flex items-center gap-2 lg:gap-0">
-      <h2 className={titleClsx}>
-        {data[selectedBoardIndex]?.title || "Empty Workspace..."}
-      </h2>
-
       {isSmallDevice && !isEmpty ? (
         <DialogPrimitive
           dialogType={DIALOG_DATA.MOBILE_MENU.key}
@@ -35,15 +33,20 @@ export function HeaderBoardTitle() {
           triggerComponent={
             <button
               aria-label="Board Dialog"
-              className="cursor-pointer outline-0 hover:bg-gray-200"
+              className="flex items-center gap-1 cursor-pointer outline-0 hover:bg-gray-200"
             >
+              <span className={titleClsx}>{title}</span>
               <img src={open ? arrowUp : arrowDown} alt="Arrow Icon down" />
             </button>
           }
         >
           <SideMenu />
         </DialogPrimitive>
-      ) : null}
+      ) : (
+        // On normal devices, just render the title normally
+        <h2 className={titleClsx}>{title}</h2>
+      )}
     </div>
   );
 }
+
