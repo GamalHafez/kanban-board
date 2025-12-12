@@ -9,6 +9,9 @@
   - [x] Text fields with all states
   - [x] Dropdowns
   - [x] Dialog
+
+---
+
 - Create the project's layout
   - [x] Header
   - [x] Sidebar
@@ -28,7 +31,19 @@
   - [x] Delete Column
   - [x] Edit task
   - [x] Drag and drop tasks
+
+---
+
 - Optional Updates to do:
   - [x] Pass `boardName` as a prop from `App.jsx` to the `Header` component to display the current board title.
   - [x] Persist the selected board index in `localStorage` and load it on app startup.
   - [x] Handle edit/delete buttons gracefully when no board is selected (disable them or hide them to avoid undefined behavior).
+
+---
+
+### Future/Next Tasks
+
+- [ ] Dark mode support
+- [ ] Hide sidebar toggle button for large (`lg`) devices
+- [ ] Add unit testing for components and hooks
+- [ ] Migrate project to TypeScript
