@@ -72,7 +72,7 @@ export function Task({ title, id, colId, description, isPlaceHolder }) {
       />
       <DeletePopOver
         deleteHandler={deleteTaskHandler}
-        parent="card"
+        parent="task"
         title={title}
       />
     </div>

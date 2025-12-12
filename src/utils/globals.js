@@ -22,6 +22,6 @@ export const DIALOG_DATA = {
 };
 
 export const DELETE_VARIANTS = {
-  card: "group-hover/card:visible",
-  article: "group-hover/article:visible",
+  task: "group-hover/card:visible -top-6 -right-3",
+  column: "group-hover/article:visible -top-3 -right-5",
 };

@@ -49,13 +49,13 @@ export function Column({ id, title, tasks = [] }) {
 
   return (
     <article className="bg-lines-light group/article flex w-72 shrink-0 flex-col gap-6 self-start rounded-lg px-2 shadow">
-      <div className="flex justify-between px-2 pt-4">
+      <div className="flex relative justify-between px-2 pt-4">
         <h2 className="text-heading-s group/column text-medium-grey bg-lines-light relative top-0 rounded font-bold tracking-widest uppercase">
           {title}
           <span className="text-main-blue ml-1.5">({tasks.length})</span>
         </h2>
         <DeletePopOver
-          parent="article"
+          parent="column"
           deleteHandler={deleteColumnHandler}
           title={title}
         />
