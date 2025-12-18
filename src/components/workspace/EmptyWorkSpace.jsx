@@ -8,7 +8,7 @@ export function EmptyWorkSpace() {
   const { isSmallDevice } = useContext(DataContext);
 
   return (
-    <article className="bg-light-grey flex h-[calc(100vh-97px)] flex-1 flex-col items-center justify-center gap-10 overflow-auto p-6">
+    <article className="flex h-[calc(100vh-97px)] flex-1 flex-col items-center justify-center gap-10 overflow-auto p-6">
       {isSmallDevice ? (
         <EmptySideMenu />
       ) : (
