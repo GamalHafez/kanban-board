@@ -1,14 +1,24 @@
 import express from "express";
 import cors from "cors";
-import { config } from "dotenv";
-import { getHome } from "./src/controllers/app.controller.js";
+
+// Import Routes
+import appRoutes from "./routes/app.routes.js";
+
+// Import middlewares
+import errorMiddleware from "./middlewares/errorMiddleware.js";
+import routeNotFound from "./middlewares/routeNotFound.js";
 
 const app = express();
-config();
 
+// Global middlewares
 app.use(cors());
 app.use(express.json());
 
-app.get("/", getHome);
+// Routes
+app.use("/", appRoutes);
+
+// Middlewares
+app.use(routeNotFound);
+app.use(errorMiddleware);
 
 export default app;
