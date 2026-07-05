@@ -3,6 +3,7 @@ import cors from "cors";
 
 // Import Routes
 import appRoutes from "./routes/app.routes.js";
+import authRoutes from "./routes/auth.routes.js";
 
 // Import middlewares
 import errorMiddleware from "./middlewares/errorMiddleware.js";
@@ -16,6 +17,7 @@ app.use(express.json());
 
 // Routes
 app.use("/", appRoutes);
+app.use("/auth", authRoutes);
 
 // Middlewares
 app.use(routeNotFound);
