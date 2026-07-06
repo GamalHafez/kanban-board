@@ -10,9 +10,7 @@ const RootLayout = () => {
         <Navbar />
       </header>
 
-      <div className="flex flex-1 overflow-hidden">
-        <Outlet />
-      </div>
+      <Outlet />
     </main>
   );
 };

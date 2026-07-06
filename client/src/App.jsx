@@ -1,12 +1,18 @@
 import { AppProvider } from "@context/AppProvider.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import RootLayout from "@components/layout/RootLayout.jsx";
+import HomePage from "./pages/HomePage";
+import RootLayout from "./components/layout/RootLayout";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
-    children: [],
+    children: [
+      {
+        path: "/",
+        element: <HomePage />,
+      },
+    ],
   },
 ]);
 
