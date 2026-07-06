@@ -1,7 +1,7 @@
 import { AppProvider } from "@context/AppProvider.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./pages/HomePage";
 import RootLayout from "./components/layout/RootLayout";
+import { HomePage, SignupPage } from "./pages";
 
 const router = createBrowserRouter([
   {
@@ -11,6 +11,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path: "/signup",
+        element: <SignupPage />,
       },
     ],
   },

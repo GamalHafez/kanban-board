@@ -5,10 +5,10 @@
  * @param {string} props.label
  * @returns {JSX.Element}
  */
-export function Label({ id, label }) {
+export function Label({ id, label, className }) {
   return (
     <label
-      className="text-heading-s text-medium-grey mb-1.5 block cursor-pointer font-bold"
+      className={`text-heading-s text-medium-grey mb-1 block cursor-pointer font-bold ${className || ""}`}
       htmlFor={id}
     >
       {label}

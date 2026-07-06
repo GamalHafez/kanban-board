@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const HomePage = () => {
+export const HomePage = () => {
   const isAuthenticated = false; // WIll be replaced
 
   const cta = isAuthenticated
@@ -24,5 +24,3 @@ const HomePage = () => {
     </div>
   );
 };
-
-export default HomePage;
