@@ -1,12 +1,17 @@
 import { Button, Label, PasswordInput, TextField } from "@components/ui";
 import { useForm } from "react-hook-form";
+import { signUpSchema } from "../../../../shared/schemas/auth.validators.js";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export const SignupForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: zodResolver(signUpSchema),
+    mode: "onTouched",
+  });
 
   const onSubmit = (data) => {
     console.log(data);
