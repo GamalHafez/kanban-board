@@ -2,7 +2,7 @@ import { useState } from "react";
 import { TextField } from ".";
 import { Eye, EyeOff } from "lucide-react";
 
-export const PasswordInput = ({ name, placeholder }) => {
+export const PasswordInput = ({ name, placeholder, ...props }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -12,6 +12,7 @@ export const PasswordInput = ({ name, placeholder }) => {
         name={name}
         autoComplete="new-password"
         placeholder={placeholder}
+        {...props}
       />
       <button
         type="button"

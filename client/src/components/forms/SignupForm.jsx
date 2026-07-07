@@ -1,22 +1,35 @@
 import { Button, Label, PasswordInput, TextField } from "@components/ui";
+import { useForm } from "react-hook-form";
 
 export const SignupForm = () => {
-  const handleSignup = (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
   };
 
   return (
     <form
       className="flex flex-col items-start justify-center"
-      onSubmit={handleSignup}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <Label id="name" label="Name" />
-      <TextField name="name" autoComplete="name" placeholder="Ex: Omar Gamal" />
+      <TextField
+        {...register("name")}
+        name="name"
+        autoComplete="name"
+        placeholder="Ex: Omar Gamal"
+      />
 
       <Label id="email" label="Email" className="mt-3" />
       <TextField
         name="email"
         type="email"
+        {...register("email")}
         autoComplete="email"
         placeholder="Ex: omar.gamal@example.com"
       />
@@ -27,7 +40,11 @@ export const SignupForm = () => {
         label="Password"
         className="mt-3"
       />
-      <PasswordInput name="password" placeholder="Enter your password" />
+      <PasswordInput
+        {...register("password")}
+        name="password"
+        placeholder="Enter your password"
+      />
 
       <Label
         id="confirmPassword"
@@ -36,6 +53,7 @@ export const SignupForm = () => {
         className="mt-3"
       />
       <PasswordInput
+        {...register("confirmPassword")}
         name="confirmPassword"
         placeholder="Confirm your password"
       />
@@ -43,7 +61,7 @@ export const SignupForm = () => {
       <Button
         size="sm"
         variant="secondary"
-        className="mt-6 rounded-sm"
+        className="mt-6 rounded-sm disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
         type="submit"
       >
         Create Account
