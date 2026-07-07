@@ -1,4 +1,4 @@
-import { Button, Label, TextField } from "@components/ui";
+import { Button, Label, PasswordInput, TextField } from "@components/ui";
 
 export const SignupForm = () => {
   const handleSignup = (e) => {
@@ -11,16 +11,34 @@ export const SignupForm = () => {
       onSubmit={handleSignup}
     >
       <Label id="name" label="Name" />
-      <TextField name="name" />
+      <TextField name="name" autoComplete="name" placeholder="Ex: Omar Gamal" />
 
       <Label id="email" label="Email" className="mt-3" />
-      <TextField name="email" />
+      <TextField
+        name="email"
+        type="email"
+        autoComplete="email"
+        placeholder="Ex: omar.gamal@example.com"
+      />
 
-      <Label id="password" label="Password" className="mt-3" />
-      <TextField name="password" />
+      <Label
+        id="password"
+        autoComplete="new-password"
+        label="Password"
+        className="mt-3"
+      />
+      <PasswordInput name="password" placeholder="Enter your password" />
 
-      <Label id="confirmPassword" label="Confirm Password" className="mt-3" />
-      <TextField name="confirmPassword" />
+      <Label
+        id="confirmPassword"
+        autoComplete="new-password"
+        label="Confirm Password"
+        className="mt-3"
+      />
+      <PasswordInput
+        name="confirmPassword"
+        placeholder="Confirm your password"
+      />
 
       <Button
         size="sm"

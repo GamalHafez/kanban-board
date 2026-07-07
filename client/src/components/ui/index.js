@@ -5,3 +5,4 @@ export * from "./DropdownPrimitive";
 export * from "./DialogPrimitive";
 export * from "./DeletePopOver";
 export * from "./DragGrip";
+export * from "./PasswordInput";
