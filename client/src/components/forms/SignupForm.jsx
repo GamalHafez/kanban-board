@@ -6,7 +6,7 @@ import {
   TextField,
 } from "@components/ui";
 import { useForm } from "react-hook-form";
-import { signUpSchema } from "../../../../shared/schemas/auth.validators.js";
+import { signUpSchema } from "@shared/schemas/auth.validators.js";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export const SignupForm = () => {

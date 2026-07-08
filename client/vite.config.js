@@ -24,6 +24,9 @@ export default defineConfig({
         __dirname,
         "./src/components/workspace",
       ),
+      "@components/layout": path.resolve(__dirname, "./src/components/layout"),
+      "@pages": path.resolve(__dirname, "./src/pages"),
+      "@shared": path.resolve(__dirname, "../shared"),
     },
   },
 });

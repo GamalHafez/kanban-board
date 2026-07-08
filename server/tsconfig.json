@@ -12,8 +12,19 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
 
-    "types": ["node"]
+    "types": ["node"],
+
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["../shared/*"],
+      "@prisma/*": ["./prisma/*"],
+      "@middlewares/*": ["./src/middlewares/*"],
+      "@controllers/*": ["./src/controllers/*"],
+      "@routes/*": ["./src/routes/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@config/*": ["./src/config/*"]
+    }
   },
 
-  "include": ["src", "../shared", "prisma.config.ts"]
+  "include": ["src", "prisma.config.ts"]
 }

@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { signUp } from "../controllers/auth.controller.js";
-import { validateRequest } from "../middlewares/validateRequest.js";
-import { signUpSchema } from "../../../shared/schemas/auth.validators.js";
+import { signUp } from "@controllers/auth.controller.js";
+import { validateRequest } from "@middlewares/validateRequest.js";
+import { signUpSchema } from "@shared/schemas/auth.validators.js";
 
 const route = Router();
 

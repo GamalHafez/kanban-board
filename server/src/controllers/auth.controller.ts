@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { prisma } from "../config/db.js";
+import { prisma } from "@config/db.js";
 import bcrypt from "bcrypt";
-import { generateToken } from "../utils/generateToken.js";
+import { generateToken } from "@utils/generateToken.js";
 
 export const signUp = async (
   req: Request,

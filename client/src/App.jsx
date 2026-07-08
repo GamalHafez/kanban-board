@@ -1,7 +1,7 @@
 import { AppProvider } from "@context/AppProvider.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import RootLayout from "./components/layout/RootLayout";
-import { HomePage, SignupPage } from "./pages";
+import RootLayout from "@components/layout/RootLayout";
+import { HomePage, SignupPage } from "@pages";
 
 const router = createBrowserRouter([
   {
