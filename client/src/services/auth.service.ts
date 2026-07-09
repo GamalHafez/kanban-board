@@ -2,7 +2,7 @@ import z from "zod";
 // @ts-expect-error
 import { signUpSchema } from "@shared/schemas/auth.validators";
 // @ts-expect-error
-import { API_ENDPOINTS } from "@/api/urls.js";
+import { API_ENDPOINTS } from "@/services/urls.js";
 
 type UserPayload = z.infer<typeof signUpSchema>;
 
@@ -25,7 +25,6 @@ export const createUser = async (
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
       body: JSON.stringify(data),
     });
 

@@ -8,6 +8,9 @@ import {
 import { useForm } from "react-hook-form";
 import { signUpSchema } from "@shared/schemas/auth.validators.js";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { createUser } from "@/services/auth.service.js";
+import { useNavigate } from "react-router-dom";
 
 export const SignupForm = () => {
   const {
@@ -18,10 +21,32 @@ export const SignupForm = () => {
     resolver: zodResolver(signUpSchema),
     mode: "onTouched",
   });
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const result = await createUser(data);
+      navigate("/");
+      console.log(result);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center">
+        <p className="text-gray-500">Creating account...</p>
+      </div>
+    );
+  }
 
   return (
     <form
@@ -80,9 +105,14 @@ export const SignupForm = () => {
         variant="secondary"
         className="mt-6 rounded-sm disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
         type="submit"
+        disabled={loading}
       >
         Create Account
       </Button>
+
+      {error && (
+        <ErrorMessage message={error} className="mt-0.5 text-sm text-red-500" />
+      )}
     </form>
   );
 };
