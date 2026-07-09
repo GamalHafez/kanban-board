@@ -17,9 +17,10 @@ export const signUp = async (
     });
 
     if (existingUser) {
-      return res
-        .status(409)
-        .json({ error: "User already exists with this email" });
+      return res.status(409).json({
+        success: false,
+        error: "User already exists with this email",
+      });
     }
 
     // Hash the password

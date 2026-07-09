@@ -13,6 +13,7 @@ export const validateRequest = <T>(schema: ZodType<T>) => {
 
     if (!result.success) {
       return res.status(400).json({
+        success: false,
         message: result.error.issues.map((issue) => issue.message).join(", "),
       });
     }
