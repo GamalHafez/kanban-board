@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { createUser } from "@/services/auth.service.js";
 import { useNavigate } from "react-router-dom";
+import { PulseLoader } from "react-spinners";
 
 export const SignupForm = () => {
   const {
@@ -39,14 +40,6 @@ export const SignupForm = () => {
       setLoading(false);
     }
   };
-
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center">
-        <p className="text-gray-500">Creating account...</p>
-      </div>
-    );
-  }
 
   return (
     <form
@@ -100,15 +93,18 @@ export const SignupForm = () => {
         <ErrorMessage message={errors.confirmPassword.message} />
       )}
 
-      <Button
-        size="sm"
-        variant="secondary"
-        className="mt-6 rounded-sm disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
-        type="submit"
-        disabled={loading}
-      >
-        Create Account
-      </Button>
+      <div className="mt-6 flex items-center justify-between gap-4">
+        <Button
+          size="sm"
+          variant="secondary"
+          className="rounded-sm disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
+          type="submit"
+          disabled={loading}
+        >
+          {loading ? "Creating account..." : "Create Account"}{" "}
+        </Button>
+        {loading && <PulseLoader color="#3b82f6" />}
+      </div>
 
       {error && (
         <ErrorMessage message={error} className="mt-0.5 text-sm text-red-500" />
