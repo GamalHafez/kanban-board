@@ -3,6 +3,7 @@ import z from "zod";
 import { signUpSchema } from "@shared/schemas/auth.validators";
 // @ts-expect-error
 import { API_ENDPOINTS } from "@/services/urls.js";
+import { normalizeError } from "@utils";
 
 type UserPayload = z.infer<typeof signUpSchema>;
 
@@ -35,11 +36,14 @@ export const createUser = async (
     }
 
     return { user: res.data as UserResponse };
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    } else {
-      throw new Error(String(error));
-    }
+  } catch (err) {
+    throw normalizeError(err);
+  }
+};
+
+export const getCurrentUser = async () => {
+  try {
+  } catch (err) {
+    throw normalizeError(err);
   }
 };
