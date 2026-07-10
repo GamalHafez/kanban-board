@@ -2,6 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import { prisma } from "@config/db.js";
 import bcrypt from "bcrypt";
 import { generateToken } from "@utils/generateToken.js";
+import jwt, { JwtPayload } from "jsonwebtoken";
+
+type MyJwtPayload = JwtPayload & {
+  id: string;
+};
 
 export const signUp = async (
   req: Request,
@@ -52,5 +57,52 @@ export const signUp = async (
     });
   } catch (error) {
     next(error);
+  }
+};
+
+export const getCurrentUser = async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies["jwt"];
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        error: "No auth cookie found",
+      });
+    }
+
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      throw new Error("JWT_SECRET is not configured");
+    }
+
+    const decoded = jwt.verify(token, secret) as MyJwtPayload;
+
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        error: "Unauthorized",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: { user },
+    });
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      error: "Unauthorized",
+    });
   }
 };
