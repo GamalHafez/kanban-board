@@ -8,6 +8,53 @@ type MyJwtPayload = JwtPayload & {
   id: string;
 };
 
+export const getCurrentUser = async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies["jwt"];
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        error: "No auth cookie found",
+      });
+    }
+
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      throw new Error("JWT_SECRET is not configured");
+    }
+
+    const decoded = jwt.verify(token, secret) as MyJwtPayload;
+
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        error: "Unauthorized",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: { user },
+    });
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      error: "Unauthorized",
+    });
+  }
+};
+
 export const signUp = async (
   req: Request,
   res: Response,
@@ -60,49 +107,15 @@ export const signUp = async (
   }
 };
 
-export const getCurrentUser = async (req: Request, res: Response) => {
-  try {
-    const token = req.cookies["jwt"];
-    if (!token) {
-      return res.status(401).json({
-        success: false,
-        error: "No auth cookie found",
-      });
-    }
+export const logout = (_: Request, res: Response) => {
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+  });
 
-    const secret = process.env.JWT_SECRET;
-    if (!secret) {
-      throw new Error("JWT_SECRET is not configured");
-    }
-
-    const decoded = jwt.verify(token, secret) as MyJwtPayload;
-
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.id },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
-
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        error: "Unauthorized",
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      data: { user },
-    });
-  } catch (error) {
-    return res.status(401).json({
-      success: false,
-      error: "Unauthorized",
-    });
-  }
+  return res.status(200).json({
+    success: true,
+    message: "Logged out successfully",
+  });
 };
