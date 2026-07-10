@@ -1,7 +1,9 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import DataContext from "@context/data-context";
 
 const Navbar = () => {
-  const isAuthenticated = false; // WIll be replaced
+  const { isAuthenticated } = useContext(DataContext);
 
   return (
     <nav className="flex items-center gap-4 pr-10 pl-0.5 md:pl-6 lg:pl-20">

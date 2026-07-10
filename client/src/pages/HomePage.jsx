@@ -1,7 +1,9 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import DataContext from "@context/data-context";
 
 export const HomePage = () => {
-  const isAuthenticated = false; // WIll be replaced
+  const {isAuthenticated} = useContext(DataContext);
 
   const cta = isAuthenticated
     ? { to: "/boards", text: "My Boards" }
