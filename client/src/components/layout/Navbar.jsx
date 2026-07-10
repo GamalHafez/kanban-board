@@ -12,10 +12,10 @@ const Navbar = () => {
           <Link to="/boards">Boards</Link>
           <Link to="/profile">Profile</Link>
           <Link
-            to="/signin"
+            to="/logout"
             className="rounded-md bg-red-500 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-red-600"
           >
-            Sign Out
+            Logout
           </Link>
         </>
       ) : (
