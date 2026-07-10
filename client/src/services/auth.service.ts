@@ -15,9 +15,7 @@ type UserResponse = {
   updatedAt: string;
 };
 
-export const createUser = async (
-  data: UserPayload,
-): Promise<{ user: UserResponse }> => {
+export const createUser = async (data: UserPayload): Promise<UserResponse> => {
   const url = `${import.meta.env.VITE_API_URL}${API_ENDPOINTS.SIGN_UP}`;
 
   try {
@@ -26,6 +24,7 @@ export const createUser = async (
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(data),
     });
 
@@ -35,15 +34,39 @@ export const createUser = async (
       throw new Error(res.error || "Failed to create user");
     }
 
-    return { user: res.data as UserResponse };
+    return res.data.user as UserResponse;
   } catch (err) {
     throw normalizeError(err);
   }
 };
 
-export const getCurrentUser = async () => {
+const getCurrentUser = async (): Promise<UserResponse> => {
   try {
+    const url = `${import.meta.env.VITE_API_URL}${API_ENDPOINTS.GET_ME}`;
+
+    const response: Response = await fetch(url, {
+      credentials: "include",
+    });
+
+    const res = await response.json();
+
+    if (!response.ok) {
+      throw new Error(res.error || "Unauthorized");
+    }
+
+    return res.data.user as UserResponse;
   } catch (err) {
     throw normalizeError(err);
+  }
+};
+
+export const checkAuth = async (
+  setUser: React.Dispatch<React.SetStateAction<UserResponse | null>>,
+) => {
+  try {
+    const user = await getCurrentUser();
+    setUser(user);
+  } catch (err) {
+    setUser(null);
   }
 };
