@@ -40,3 +40,13 @@ export const signUpSchema = z
       });
     }
   });
+
+export const loginSchema = z.object({
+  email: z
+    .email({
+      message: "Please provide a valid email address.",
+    })
+    .trim()
+    .toLowerCase(),
+  password: z.string(),
+});

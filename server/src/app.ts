@@ -16,6 +16,7 @@ const app = express();
 // Global middlewares
 app.use(
   cors({
+    // To be fixed
     origin: "http://localhost:5173",
     credentials: true,
   }),

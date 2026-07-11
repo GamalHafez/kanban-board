@@ -107,6 +107,56 @@ export const signUp = async (
   }
 };
 
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { email, password: userInputPassword } = req.body;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        password: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        error: "Invalid email or password",
+      });
+    }
+
+    const isMatch = await bcrypt.compare(userInputPassword, user.password);
+
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        error: "Invalid email or password",
+      });
+    }
+
+    generateToken(user.id, res);
+
+    const { password, ...safeUser } = user;
+
+    return res.status(200).json({
+      success: true,
+      message: "Logged in successfully",
+      data: { user: safeUser },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const logout = (_: Request, res: Response) => {
   res.clearCookie("jwt", {
     httpOnly: true,
