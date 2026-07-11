@@ -7,7 +7,7 @@ import { normalizeError } from "@utils";
 
 type UserPayload = z.infer<typeof signUpSchema>;
 
-type UserResponse = {
+export type UserResponse = {
   id: string;
   name: string;
   email: string;
@@ -68,5 +68,26 @@ export const checkAuth = async (
     setUser(user);
   } catch (err) {
     setUser(null);
+  }
+};
+
+export const logout = async (): Promise<string> => {
+  try {
+    const url = `${import.meta.env.VITE_API_URL}${API_ENDPOINTS.LOG_OUT}`;
+
+    const response: Response = await fetch(url, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    const res = await response.json();
+
+    if (!response.ok) {
+      throw new Error(res.error || "Failed to log out");
+    }
+
+    return res.message;
+  } catch (err) {
+    throw normalizeError(err);
   }
 };

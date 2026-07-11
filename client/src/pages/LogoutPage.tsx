@@ -1,14 +1,44 @@
-import { LogOut } from "lucide-react";
-// @ts-expect-error
-import { Button } from "@components/ui";
 import { useNavigate } from "react-router-dom";
+import { LogOut } from "lucide-react";
+import { useContext, useState } from "react";
+import { PulseLoader } from "react-spinners";
+// @ts-expect-error
+import { logout } from "@/services/auth.service";
+// @ts-expect-error
+import { Button } from "@/components/ui";
+// @ts-expect-error
+import DataContext from "@/context/data-context";
+// @ts-expect-error
+import { UserResponse } from "./src/services/auth.service";
 
 export const LogoutPage = () => {
+  const { setUser } = useContext(DataContext) as {
+    setUser: React.Dispatch<React.SetStateAction<UserResponse | null>>;
+  };
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    setLoading(true);
+
+    try {
+      await logout();
+      setUser(null);
+      navigate("/");
+    } catch (error) {
+      console.error(error); // A todo task later
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="mx-auto flex h-full max-w-xl flex-col items-center justify-center gap-5 place-self-center px-6 text-center md:w-2xl lg:w-2xl">
-      <LogOut className="text-red-900" size={50} />
+      {loading ? (
+        <PulseLoader color="var(--color-red-hover)" />
+      ) : (
+        <LogOut className="text-red-900" size={50} />
+      )}
 
       <div>
         <h2 className="text-2xl text-red-900">
@@ -29,7 +59,7 @@ export const LogoutPage = () => {
         <Button
           size="sm"
           className="bg-red-900 hover:bg-red-900/85"
-          onClick={() => {}}
+          onClick={handleLogout}
         >
           Logout
         </Button>
