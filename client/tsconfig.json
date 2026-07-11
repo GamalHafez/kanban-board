@@ -14,14 +14,14 @@
     "types": ["node", "vite/client"],
     "noEmit": true,
     "paths": {
-      "@": ["./src"],
-      "@assets": ["./src/assets"],
-      "@context": ["./src/context"],
-      "@utils": ["./src/utils"],
-      "@hooks": ["./src/hooks"],
-      "@components": ["./src/components"],
-      "@pages": ["./src/pages"],
-      "@shared": ["../shared"]
+      "@/*": ["./src/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@context/*": ["./src/context/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@components/*": ["./src/components/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@shared/*": ["../shared/*"]
     }
   },
   "include": ["src", "../shared"],

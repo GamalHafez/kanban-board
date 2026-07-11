@@ -8,4 +8,8 @@ export default createContext({
   selectedBoardIndex: 0,
   setSelectedBoardIndex: () => {},
   isSmallDevice: false,
+
+  user: {},
+  setUser: () => {},
+  isAuthenticated: false,
 });

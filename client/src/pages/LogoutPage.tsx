@@ -2,14 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import { useContext, useState } from "react";
 import { PulseLoader } from "react-spinners";
-// @ts-expect-error
-import { logout } from "@/services/auth.service";
-// @ts-expect-error
 import { Button } from "@/components/ui";
-// @ts-expect-error
 import DataContext from "@/context/data-context";
-// @ts-expect-error
-import { UserResponse } from "./src/services/auth.service";
+import { logout, UserResponse } from "@/services/auth.service";
 
 export const LogoutPage = () => {
   const { setUser } = useContext(DataContext) as {

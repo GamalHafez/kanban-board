@@ -28,17 +28,15 @@ const button = cva(
   },
 );
 
-/**
- *
- * @param {Object} props
- * @param {React.ReactNode} props.children
- * @param {'sm' | 'lg'} props.size
- * @param {'primary' | 'secondary' | 'destructive'} props.variant
- * @param {boolean} props.isDisabled
- * @param {string} props.className
- * @param {boolean} props.isFullWidth
- * @returns {JSX.Element}
- */
+interface ButtonProps {
+  children: React.ReactNode;
+  size: "sm" | "lg";
+  variant?: "primary" | "secondary" | "destructive"; // optional
+  isDisabled?: boolean; // optional
+  className?: string;
+  isFullWidth?: boolean; // optional
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
 
 export function Button({
   children,
@@ -48,7 +46,7 @@ export function Button({
   className,
   isFullWidth,
   ...props
-}) {
+}: ButtonProps) {
   return (
     <button
       className={button({ variant, size, isFullWidth, className, isDisabled })}
