@@ -73,12 +73,7 @@ export const SignupForm = () => {
         />
         {errors.email && <ErrorMessage message={errors.email.message} />}
 
-        <Label
-          id="password"
-          autoComplete="new-password"
-          label="Password"
-          className="mt-4"
-        />
+        <Label id="password" label="Password" className="mt-4" />
         <PasswordInput
           {...register("password")}
           name="password"

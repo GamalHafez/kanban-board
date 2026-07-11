@@ -1,17 +1,6 @@
 import clsx from "clsx";
 
-/**
- * @param {Object} props
- * @param {string} props.placeholder
- * @param {boolean} props.isInvalid
- * @param {string} props.name
- * @param {boolean} props.required
- * @param {string} props.defaultValue
- * @param {string} props.label
- * @returns {JSX.Element}
- */
-
-export function TextField({ isInvalid, name, ...props }) {
+export function TextField({ isInvalid = false, name, ...props }) {
   return (
     <div className="relative flex flex-1 flex-col gap-1 md:min-w-80 lg:min-w-80">
       {isInvalid && (

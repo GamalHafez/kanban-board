@@ -48,5 +48,5 @@ export const loginSchema = z.object({
     })
     .trim()
     .toLowerCase(),
-  password: z.string(),
+  password: z.string().min(1, { message: "Password is required" }),
 });

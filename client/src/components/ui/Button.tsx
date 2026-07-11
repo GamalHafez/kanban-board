@@ -31,17 +31,19 @@ const button = cva(
 interface ButtonProps {
   children: React.ReactNode;
   size: "sm" | "lg";
-  variant?: "primary" | "secondary" | "destructive"; // optional
-  isDisabled?: boolean; // optional
+  variant?: "primary" | "secondary" | "destructive";
+  isDisabled?: boolean; // use native prop
   className?: string;
-  isFullWidth?: boolean; // optional
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  type?: "button" | "submit" | "reset";
+  isFullWidth?: boolean;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export function Button({
   children,
   size,
   variant,
+  type,
   isDisabled,
   className,
   isFullWidth,
@@ -50,6 +52,7 @@ export function Button({
   return (
     <button
       className={button({ variant, size, isFullWidth, className, isDisabled })}
+      disabled={isDisabled}
       {...props}
     >
       {children}
