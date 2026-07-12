@@ -9,6 +9,7 @@ import {
   BoardsPage,
   ProfilePage,
 } from "@pages";
+import { ProtectedRoute, GuestRoute } from "@/pages/auth-routes";
 
 const router = createBrowserRouter([
   {
@@ -16,28 +17,38 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       {
-        path: "/",
+        index: true,
         element: <HomePage />,
       },
       {
-        path: "/signup",
-        element: <SignupPage />,
+        element: <GuestRoute />,
+        children: [
+          {
+            path: "/signup",
+            element: <SignupPage />,
+          },
+          {
+            path: "/login",
+            element: <LoginPage />,
+          },
+        ],
       },
       {
-        path: "/logout",
-        element: <LogoutPage />,
-      },
-      {
-        path: "/login",
-        element: <LoginPage />,
-      },
-      {
-        path: "/boards",
-        element: <BoardsPage />,
-      },
-      {
-        path: "/profile",
-        element: <ProfilePage />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "/logout",
+            element: <LogoutPage />,
+          },
+          {
+            path: "/boards",
+            element: <BoardsPage />,
+          },
+          {
+            path: "/profile",
+            element: <ProfilePage />,
+          },
+        ],
       },
     ],
   },
