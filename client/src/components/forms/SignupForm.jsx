@@ -8,11 +8,12 @@ import {
 import { useForm } from "react-hook-form";
 import { signUpSchema } from "@shared/schemas/auth.validators.js";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { createUser } from "@/services/auth.service.js";
+import { useContext, useState } from "react";
+import { checkAuth, createUser } from "@/services/auth.service.js";
 import { useNavigate } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 import { Ban } from "lucide-react";
+import DataContext from "@context/data-context";
 
 export const SignupForm = () => {
   const {
@@ -23,6 +24,7 @@ export const SignupForm = () => {
     resolver: zodResolver(signUpSchema),
     mode: "onTouched",
   });
+  const { setUser } = useContext(DataContext);
   const navigate = useNavigate();
   const [signupError, setSignupError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -33,6 +35,7 @@ export const SignupForm = () => {
 
     try {
       await createUser(data);
+      await checkAuth(setUser);
       navigate("/");
     } catch (error) {
       setSignupError(error.message);
