@@ -1,19 +1,15 @@
 import {
-  Button,
   ErrorMessage,
   Label,
+  LoadingButton,
   PasswordInput,
   TextField,
 } from "@components/ui";
 import { useForm } from "react-hook-form";
 import { signUpSchema } from "@shared/schemas/auth.validators.js";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext, useState } from "react";
-import { checkAuth, createUser } from "@/services/auth.service.js";
-import { useNavigate } from "react-router-dom";
-import { PulseLoader } from "react-spinners";
-import { Ban } from "lucide-react";
-import DataContext from "@context/data-context";
+import { useAuthAction } from "@/hooks";
+import { createUser } from "@/services/auth.service";
 
 export const SignupForm = () => {
   const {
@@ -24,38 +20,20 @@ export const SignupForm = () => {
     resolver: zodResolver(signUpSchema),
     mode: "onTouched",
   });
-  const { setUser } = useContext(DataContext);
-  const navigate = useNavigate();
-  const [signupError, setSignupError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { loading, error, setError, execute } = useAuthAction();
 
-  const onSubmit = async (data) => {
-    setLoading(true);
-    setSignupError("");
-
-    try {
-      await createUser(data);
-      await checkAuth(setUser);
-      navigate("/");
-    } catch (error) {
-      setSignupError(error.message);
-    } finally {
-      setLoading(false);
-    }
+  const onSubmit = (data) => {
+    execute(() => createUser(data));
   };
 
   return (
     <>
-      {signupError && (
-        <div className="flex w-full items-center gap-4 rounded-md bg-red-900 px-3 py-4">
-          <Ban color="#ffffff" size={30} />
-          <ErrorMessage message={signupError} className="text-sm text-white" />
-        </div>
-      )}
+      {error && <AuthErrorAlert message={error} />}
 
       <form
         className="flex flex-col items-start justify-center"
         onSubmit={handleSubmit(onSubmit)}
+        onChange={() => setError("")}
       >
         <Label id="name" label="Name" />
         <TextField
@@ -99,19 +77,11 @@ export const SignupForm = () => {
           <ErrorMessage message={errors.confirmPassword.message} />
         )}
 
-        <div className="mt-6 flex items-center justify-between gap-4">
-          <Button
-            size="sm"
-            variant="secondary"
-            className="rounded-sm disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
-            type="submit"
-            disabled={loading}
-            onClick={() => setSignupError("")}
-          >
-            {loading ? "Creating account..." : "Create Account"}{" "}
-          </Button>
-          {loading && <PulseLoader color="#3b82f6" />}
-        </div>
+        <LoadingButton
+          loading={loading}
+          idleText="Create Account"
+          loadingText="Creating account..."
+        />
       </form>
     </>
   );
