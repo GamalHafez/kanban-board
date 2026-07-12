@@ -1,11 +1,10 @@
 import z from "zod";
-// @ts-expect-error
-import { signUpSchema } from "@shared/schemas/auth.validators";
-// @ts-expect-error
+import { loginSchema, signUpSchema } from "@shared/schemas/auth.validators";
 import { API_ENDPOINTS } from "@/services/urls.js";
-import { normalizeError } from "@utils";
+import { normalizeError } from "@/utils";
 
-type UserPayload = z.infer<typeof signUpSchema>;
+type SignupPayload = z.infer<typeof signUpSchema>;
+type LoginPayload = z.infer<typeof loginSchema>;
 
 export type UserResponse = {
   id: string;
@@ -15,7 +14,9 @@ export type UserResponse = {
   updatedAt: string;
 };
 
-export const createUser = async (data: UserPayload): Promise<UserResponse> => {
+export const createUser = async (
+  data: SignupPayload,
+): Promise<UserResponse> => {
   const url = `${import.meta.env.VITE_API_URL}${API_ENDPOINTS.SIGN_UP}`;
 
   try {
@@ -68,6 +69,31 @@ export const checkAuth = async (
     setUser(user);
   } catch (err) {
     setUser(null);
+  }
+};
+
+export const login = async (data: LoginPayload): Promise<UserResponse> => {
+  try {
+    const url = `${import.meta.env.VITE_API_URL}${API_ENDPOINTS.LOG_IN}`;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(data),
+    });
+
+    const res = await response.json();
+
+    if (!response.ok) {
+      throw new Error(res.error || "Failed to log in");
+    }
+
+    return res.data.user;
+  } catch (err) {
+    throw normalizeError(err);
   }
 };
 

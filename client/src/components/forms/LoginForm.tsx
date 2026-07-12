@@ -1,3 +1,4 @@
+import { checkAuth, login } from "@/services/auth.service";
 import {
   Button,
   ErrorMessage,
@@ -8,10 +9,12 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@shared/schemas/auth.validators";
 import { Ban } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PulseLoader } from "react-spinners";
 import z from "zod";
+import DataContext from "@context/data-context";
+import { useNavigate } from "react-router-dom";
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
@@ -24,10 +27,29 @@ export const LoginForm = () => {
     resolver: zodResolver(loginSchema),
     mode: "onTouched",
   });
+  const { setUser } = useContext(DataContext);
   const [loginError, setLoginError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const onSubmit = () => {};
+  const onSubmit = async (data: LoginFormData) => {
+    setLoading(true);
+    setLoginError("");
+
+    try {
+      await login(data);
+      await checkAuth(setUser);
+      navigate("/");
+    } catch (err) {
+      if (err instanceof Error) {
+        setLoginError(err.message);
+      } else {
+        setLoginError(String(err));
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
