@@ -1,7 +1,14 @@
 import { AppProvider } from "@context/AppProvider.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "@components/layout/RootLayout";
-import { HomePage, SignupPage, LogoutPage, LoginPage } from "@pages";
+import {
+  HomePage,
+  SignupPage,
+  LogoutPage,
+  LoginPage,
+  BoardsPage,
+  ProfilePage,
+} from "@pages";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +30,14 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage />,
+      },
+      {
+        path: "/boards",
+        element: <BoardsPage />,
+      },
+      {
+        path: "/profile",
+        element: <ProfilePage />,
       },
     ],
   },
