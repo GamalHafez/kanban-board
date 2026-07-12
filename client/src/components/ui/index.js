@@ -7,5 +7,3 @@ export * from "./DeletePopOver";
 export * from "./DragGrip";
 export * from "./PasswordInput";
 export * from "./ErrorMessage";
-export * from "./AuthErrorAlert";
-export * from "./LoadingButton";

@@ -1,10 +1,9 @@
+import { ErrorMessage, Label, PasswordInput, TextField } from "@components/ui";
 import {
-  ErrorMessage,
-  Label,
+  AuthErrorAlert,
+  AuthRedirect,
   LoadingButton,
-  PasswordInput,
-  TextField,
-} from "@components/ui";
+} from "@components/ui/auth";
 import { useForm } from "react-hook-form";
 import { signUpSchema } from "@shared/schemas/auth.validators.js";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -76,13 +75,18 @@ export const SignupForm = () => {
         {errors.confirmPassword && (
           <ErrorMessage message={errors.confirmPassword.message} />
         )}
-
         <LoadingButton
           loading={loading}
           idleText="Create Account"
           loadingText="Creating account..."
         />
       </form>
+
+      <AuthRedirect
+        message="Already have an account?"
+        actionLabel="Log in"
+        actionHref="/login"
+      />
     </>
   );
 };

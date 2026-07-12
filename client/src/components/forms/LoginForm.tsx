@@ -1,12 +1,10 @@
 import { login } from "@/services/auth.service";
+import { ErrorMessage, Label, PasswordInput, TextField } from "@components/ui";
 import {
-  AuthErrorAlert,
-  ErrorMessage,
-  Label,
+  AuthRedirect,
   LoadingButton,
-  PasswordInput,
-  TextField,
-} from "@components/ui";
+  AuthErrorAlert,
+} from "@components/ui/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@shared/schemas/auth.validators";
 import { useForm } from "react-hook-form";
@@ -64,6 +62,12 @@ export const LoginForm = () => {
           loadingText="Logging in..."
         />
       </form>
+
+      <AuthRedirect
+        message="Don’t have an account?"
+        actionLabel="Sign up"
+        actionHref="/signup"
+      />
     </>
   );
 };
