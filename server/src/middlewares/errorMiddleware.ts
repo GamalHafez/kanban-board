@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-const errorMiddleware = (
+export const errorMiddleware = (
   err: Error & { statusCode?: number },
   req: Request,
   res: Response,
@@ -15,5 +15,3 @@ const errorMiddleware = (
     message: err.message || "Internal Server Error",
   });
 };
-
-export default errorMiddleware;

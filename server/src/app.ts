@@ -7,9 +7,7 @@ import appRoutes from "@routes/app.routes.js";
 import authRoutes from "@routes/auth.routes.js";
 
 // Import middlewares
-import errorMiddleware from "@middlewares/errorMiddleware.js";
-import routeNotFound from "@middlewares/routeNotFound.js";
-import logger from "@middlewares/logger.js";
+import { errorMiddleware, routeNotFound, logger } from "@middlewares/index.js";
 
 const app = express();
 
