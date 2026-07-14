@@ -5,3 +5,10 @@ export type UserResponse = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type BoardResponse = {
+  id: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+};

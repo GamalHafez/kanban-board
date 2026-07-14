@@ -14,6 +14,12 @@ export const checkBoardId = async (
         id: id as string,
         userId: req.user?.id,
       },
+      select: {
+        id: true,
+        name: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
 
     if (!board) {
@@ -23,7 +29,7 @@ export const checkBoardId = async (
       });
     }
 
-    req.boardId = id as string;
+    req.board = board;
     next();
   } catch (err) {
     next(err);

@@ -1,10 +1,10 @@
-import { UserResponse } from "./index.js";
+import { UserResponse, BoardResponse } from "./index.js";
 
 declare global {
   namespace Express {
     interface Request {
       user?: UserResponse;
-      boardId?: string;
+      board?: BoardResponse;
     }
   }
 }

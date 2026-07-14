@@ -55,6 +55,23 @@ export const createBoard = async (
   }
 };
 
+export const getBoard = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { board } = req;
+
+    res.status(200).json({
+      success: true,
+      data: { board },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const updateBoard = async (
   req: Request,
   res: Response,
@@ -62,10 +79,9 @@ export const updateBoard = async (
 ) => {
   try {
     const { name } = req.body;
-    const { boardId } = req;
 
     const board = await prisma.board.update({
-      where: { id: boardId },
+      where: { id: req.board?.id },
       data: { name },
     });
 
@@ -84,10 +100,8 @@ export const deleteBoard = async (
   next: NextFunction,
 ) => {
   try {
-    const { boardId } = req;
-
     const board = await prisma.board.delete({
-      where: { id: boardId },
+      where: { id: req.board?.id },
       select: { name: true },
     });
 

@@ -7,6 +7,7 @@ import {
 import {
   getBoards,
   createBoard,
+  getBoard,
   updateBoard,
   deleteBoard,
 } from "@/controllers/boards.controller.js";
@@ -23,6 +24,7 @@ route
 route.param("id", checkBoardId);
 route
   .route("/:id")
+  .get(getBoard)
   .patch(validateRequest(upsertBoardSchema), updateBoard)
   .delete(deleteBoard);
 
