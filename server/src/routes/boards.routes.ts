@@ -9,7 +9,7 @@ import {
   createBoard,
   updateBoard,
 } from "@/controllers/boards.controller.js";
-import { createBoardSchema } from "@shared/schemas/boards.validators.js";
+import { upsertBoardSchema } from "@shared/schemas/boards.validators.js";
 
 const route = Router();
 route.use(verifyJwt);
@@ -17,9 +17,9 @@ route.use(verifyJwt);
 route
   .route("/")
   .get(getBoards)
-  .post(validateRequest(createBoardSchema), createBoard);
+  .post(validateRequest(upsertBoardSchema), createBoard);
 
 route.param("id", checkBoardId);
-route.route("/:id").patch(updateBoard);
+route.route("/:id").patch(validateRequest(upsertBoardSchema), updateBoard);
 
 export default route;

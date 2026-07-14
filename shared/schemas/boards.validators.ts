@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const createBoardSchema = z.object({
+export const upsertBoardSchema = z.object({
   name: z
     .string()
     .trim()

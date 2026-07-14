@@ -61,6 +61,18 @@ export const updateBoard = async (
   next: NextFunction,
 ) => {
   try {
+    const { name } = req.body;
+    const { boardId } = req;
+
+    const board = await prisma.board.update({
+      where: { id: boardId },
+      data: { name },
+    });
+
+    res.status(200).json({
+      success: true,
+      data: { board },
+    });
   } catch (err) {
     next(err);
   }
