@@ -77,3 +77,26 @@ export const updateBoard = async (
     next(err);
   }
 };
+
+export const deleteBoard = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { boardId } = req;
+
+    const board = await prisma.board.delete({
+      where: { id: boardId },
+      select: { name: true },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Board deleted successfully",
+      data: { board },
+    });
+  } catch (err) {
+    next(err);
+  }
+};

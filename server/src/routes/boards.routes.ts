@@ -8,6 +8,7 @@ import {
   getBoards,
   createBoard,
   updateBoard,
+  deleteBoard,
 } from "@/controllers/boards.controller.js";
 import { upsertBoardSchema } from "@shared/schemas/boards.validators.js";
 
@@ -20,6 +21,9 @@ route
   .post(validateRequest(upsertBoardSchema), createBoard);
 
 route.param("id", checkBoardId);
-route.route("/:id").patch(validateRequest(upsertBoardSchema), updateBoard);
+route
+  .route("/:id")
+  .patch(validateRequest(upsertBoardSchema), updateBoard)
+  .delete(deleteBoard);
 
 export default route;
