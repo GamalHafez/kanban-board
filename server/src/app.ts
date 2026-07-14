@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 // Import Routes
 import appRoutes from "@routes/app.routes.js";
 import authRoutes from "@routes/auth.routes.js";
+import boardsRoutes from "@routes/boards.routes.js";
 
 // Import middlewares
 import { errorMiddleware, routeNotFound, logger } from "@middlewares/index.js";
@@ -26,6 +27,7 @@ app.use(cookieParser());
 // Routes
 app.use("/", appRoutes);
 app.use("/auth", authRoutes);
+app.use("/boards", boardsRoutes);
 
 // Middlewares
 app.use(routeNotFound);
