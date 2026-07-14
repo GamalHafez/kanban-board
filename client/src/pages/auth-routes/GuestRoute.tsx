@@ -6,7 +6,7 @@ export const GuestRoute = () => {
   const { isAuthenticated } = useContext(DataContext);
 
   if (isAuthenticated) {
-    return <Navigate to="/boards" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return <Outlet />;
