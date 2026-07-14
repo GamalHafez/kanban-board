@@ -22,3 +22,35 @@ export const getBoards = async (
     next(err);
   }
 };
+
+export const createBoard = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { name } = req.body;
+
+    const board = await prisma.board.create({
+      data: {
+        name,
+        user: {
+          connect: { id: req.user?.id },
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    res.status(201).json({
+      success: true,
+      data: { board },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
