@@ -54,3 +54,14 @@ export const createBoard = async (
     next(err);
   }
 };
+
+export const updateBoard = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+  } catch (err) {
+    next(err);
+  }
+};
