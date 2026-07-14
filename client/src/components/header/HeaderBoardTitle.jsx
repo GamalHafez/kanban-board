@@ -33,7 +33,7 @@ export function HeaderBoardTitle() {
           triggerComponent={
             <button
               aria-label="Board Dialog"
-              className="flex items-center gap-1 cursor-pointer outline-0 hover:bg-gray-200"
+              className="flex cursor-pointer items-center gap-1 outline-0 hover:bg-gray-200"
             >
               <span className={titleClsx}>{title}</span>
               <img src={open ? arrowUp : arrowDown} alt="Arrow Icon down" />
@@ -49,4 +49,3 @@ export function HeaderBoardTitle() {
     </div>
   );
 }
-
