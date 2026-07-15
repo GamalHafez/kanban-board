@@ -3,6 +3,7 @@ import cancelIcon from "@assets/icon-cross.svg";
 import { useContext, useReducer, useState } from "react";
 import DataContext from "@context/data-context";
 import { ACTIONS, EDIT_MODES, initialBoard, reducer } from "@utils";
+import { createBoard } from "@/services/boards.service";
 
 /**
  *
@@ -18,26 +19,33 @@ export function EditBoardForm({ selectedBoard = {}, editMode, setOpen }) {
     reducer,
     Object.keys(selectedBoard).length ? selectedBoard : initialBoard(),
   );
-  const { setData, data, setSelectedBoardIndex } = useContext(DataContext);
+  const { setBoards, boards, setSelectedBoardId } = useContext(DataContext);
   const [error, setError] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle Empty TextFields
-    if (!boardState.title || boardState.columns.some((col) => !col.title)) {
+
+    // Validate required fields before proceeding
+    // Currently only checking the board title;
+    // extend this if column validation is needed
+    if (!boardState.title) {
       setError(true);
       return;
     }
+
     switch (editMode.title) {
-      case EDIT_MODES.CREATE.title:
-        setData((prev) => [...prev, boardState]);
-        setSelectedBoardIndex(data.length); // Select the newly created board
+      case EDIT_MODES.CREATE.title: {
+        const newBoard = await createBoard({ name: boardState.title });
+        setBoards((prev) => [...prev, newBoard]);
+        setSelectedBoardId(newBoard.id); // Select the newly created board
         break;
+      }
+
       case EDIT_MODES.EDIT.title: {
-        const selectedBoardId = data.find(
+        const selectedBoardId = boards.find(
           (board) => board.id === selectedBoard.id,
         ).id;
-        setData((prev) => [
+        setBoards((prev) => [
           ...prev.filter((board) => board.id !== selectedBoardId),
           boardState,
         ]);
@@ -46,6 +54,7 @@ export function EditBoardForm({ selectedBoard = {}, editMode, setOpen }) {
       default:
         break;
     }
+
     setOpen(false);
     setError(false);
   };
@@ -82,13 +91,12 @@ export function EditBoardForm({ selectedBoard = {}, editMode, setOpen }) {
       </div>
       <div>
         <Label id={boardState.columns[0]?.id} label="Board Columns" />
-        {boardState.columns?.map((col) => (
-          <div
-            key={col.id}
-            className="mb-2.5 flex items-center gap-4 last:mb-0"
-          >
+        {boardState.columns?.map((col, index) => (
+          <div key={index} className="mb-2.5 flex items-center gap-4 last:mb-0">
             <TextField
-              isInvalid={!col.title && error}
+              isInvalid={
+                editMode.title === EDIT_MODES.EDIT.title && !col.title && error
+              }
               placeholder="e.g. ToDo"
               name={col.id}
               onChange={(e) => updateColumnTitle(e, col.id)}

@@ -27,3 +27,28 @@ export const getBoards = async (): Promise<Board[]> => {
     throw normalizeError(err);
   }
 };
+
+export const createBoard = async (data: { name: string }): Promise<Board> => {
+  try {
+    const url = `${import.meta.env.VITE_API_URL}${API_ENDPOINTS.BOARDS}`;
+
+    const response = await fetch(url, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const res = await response.json();
+
+    if (!response.ok) {
+      throw new Error(res.error || "Failed to create board");
+    }
+
+    return res.data.board as Board;
+  } catch (err) {
+    throw normalizeError(err);
+  }
+};

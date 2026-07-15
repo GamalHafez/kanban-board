@@ -1,7 +1,6 @@
 export const initialBoard = () => ({
-  id: crypto.randomUUID(),
   title: "",
-  columns: [{ id: crypto.randomUUID(), title: "", tasks: [] }],
+  columns: [{ title: "", tasks: [] }],
 });
 
 export const ACTIONS = {
@@ -23,10 +22,7 @@ export function reducer(state, { type, payload }) {
     case ACTIONS.ADD_COLUMN:
       return {
         ...state,
-        columns: [
-          ...state.columns,
-          { id: crypto.randomUUID(), title: "", tasks: [] },
-        ],
+        columns: [...state.columns, { title: "", tasks: [] }],
       };
     case ACTIONS.UPDATE_COLUMN_TITLE: {
       const updatedColumns = [...state.columns].map((col) => {
