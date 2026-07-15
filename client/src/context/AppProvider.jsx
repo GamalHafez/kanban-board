@@ -35,11 +35,17 @@ export function AppProvider({ children }) {
     initialize();
   }, [selectedBoardId]);
 
+  const updateSelectedBoardId = (newId) => {
+    setSelectedBoardId(newId);
+    saveToStorage(APP_KEYS.selectedBoardId, newId);
+  };
+
   return (
     <DataContext.Provider
       value={{
         selectedBoardId,
         setSelectedBoardId,
+        updateSelectedBoardId,
         isSmallDevice,
 
         boards,

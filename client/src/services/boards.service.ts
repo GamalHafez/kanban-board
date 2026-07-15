@@ -44,7 +44,7 @@ export const createBoard = async (data: { name: string }): Promise<Board> => {
     const res = await response.json();
 
     if (!response.ok) {
-      throw new Error(res.error || "Failed to create board");
+      throw new Error(res.message || "Failed to create board");
     }
 
     return res.data.board as Board;
