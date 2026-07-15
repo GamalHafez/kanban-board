@@ -1,6 +1,7 @@
 import { Button } from "@components/ui";
 import { useContext } from "react";
 import DataContext from "@context/data-context";
+import { getSelectedBoard } from "@/utils";
 
 /**
  * @param {Object} props
@@ -9,17 +10,17 @@ import DataContext from "@context/data-context";
  */
 
 export function DeleteBoard({ dialogToggle }) {
-  const { data, setData, setSelectedBoardIndex, selectedBoardIndex } =
-    useContext(DataContext);
+  const { boards, selectedBoardId } = useContext(DataContext);
+  const selectedBoard = getSelectedBoard(selectedBoardId, boards);
 
   const deleteHandler = () => {
-    setData((prev) => prev.toSpliced(selectedBoardIndex, 1));
     dialogToggle(false);
 
     // Select the Previous board if avaliable
-    if (selectedBoardIndex - 1 >= 0) {
+    /**  if (selectedBoardId - 1 >= 0) {
       setSelectedBoardIndex(selectedBoardIndex - 1);
-    }
+    } 
+      */
   };
 
   return (
@@ -27,7 +28,7 @@ export function DeleteBoard({ dialogToggle }) {
       <p className="text-heading-xs text-gray-600">
         This action will remove all columns and tasks inside
         <span className="text-main-blue mx-1 font-bold">
-          "{data[selectedBoardIndex]?.title}"
+          "{selectedBoard?.name}"
         </span>
         and cannot be undone.
       </p>

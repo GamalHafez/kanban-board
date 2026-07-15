@@ -3,3 +3,4 @@ export * from "./localStorage";
 export * from "./globals";
 export * from "./drag";
 export * from "./error";
+export * from "./getSelectedBoard";

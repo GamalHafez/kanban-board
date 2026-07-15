@@ -9,8 +9,8 @@ import { SideMenu } from "@components/board";
 
 export function HeaderBoardTitle() {
   const [open, setOpen] = useState(false);
-  const { selectedBoardIndex, data, isSmallDevice } = useContext(DataContext);
-  const isEmpty = !data.length || !data[selectedBoardIndex];
+  const { selectedBoardId, boards, isSmallDevice } = useContext(DataContext);
+  const isEmpty = !boards.length || !boards[selectedBoardId];
 
   const titleClsx = clsx("text-heading-l lg:text-heading-xl font-semibold", {
     "text-gray-600": isEmpty,
@@ -19,9 +19,10 @@ export function HeaderBoardTitle() {
   useEffect(() => {
     const timeout = setTimeout(() => setOpen(false), 0);
     return () => clearTimeout(timeout);
-  }, [selectedBoardIndex]);
+  }, [selectedBoardId]);
 
-  const title = data[selectedBoardIndex]?.title || "Empty Workspace...";
+  const selectedBoardIndex = boards.findIndex((b) => b.id === selectedBoardId);
+  const title = boards[selectedBoardIndex]?.name ?? "No Boards Available";
 
   return (
     <div className="flex items-center gap-2 lg:gap-0">

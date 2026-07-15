@@ -1,7 +1,7 @@
 import { normalizeError } from "@/utils";
 import { API_ENDPOINTS } from "./urls";
 
-type Board = {
+export type Board = {
   id: string;
   name: string;
   createdAt: Date;

@@ -15,6 +15,7 @@ import DataContext from "@context/data-context";
 import { calculateRows, EDIT_MODES, getDragData } from "@utils";
 import { useContext, useState } from "react";
 import { produce } from "immer";
+import { getSelectedBoard } from "@/utils";
 
 export function WorkSpace() {
   const sensors = useSensors(
@@ -24,11 +25,12 @@ export function WorkSpace() {
     useSensor(KeyboardSensor),
     useSensor(MouseSensor),
   );
-  const { data, setData, selectedBoardIndex } = useContext(DataContext);
+  const { boards, setBoards, selectedBoardId } = useContext(DataContext);
   const [open, setOpen] = useState(false);
+  const selectedBoard = getSelectedBoard(selectedBoardId, boards);
 
   const handleDragEnd = (e) => {
-    const { active, over } = getDragData(e, data[selectedBoardIndex]);
+    const { active, over } = getDragData(e, selectedBoard);
     if (active.id === over.id) return;
 
     const setRows = active.setRows;
@@ -41,9 +43,10 @@ export function WorkSpace() {
 
     // Handle reordering when dragging within the same column.
     if (active.colId === over.colId) {
-      setData((prev) =>
+      setBoards((prev) =>
         produce(prev, (draft) => {
-          const targetCol = draft[selectedBoardIndex]?.columns[active.colIdx];
+          const board = getSelectedBoard(selectedBoardId, draft);
+          const targetCol = board?.columns[active.colIdx];
           targetCol.tasks = arrayMove(targetCol.tasks, active.idx, over.idx);
         }),
       );
@@ -51,7 +54,7 @@ export function WorkSpace() {
   };
 
   const onDragOverHandler = (e) => {
-    const { active, over } = getDragData(e, data[selectedBoardIndex]);
+    const { active, over } = getDragData(e, selectedBoard);
     if (!e.delta.x && !e.delta.y) return;
 
     /* While dragging, adapt the dragged task's row count to mimic the size
@@ -67,10 +70,10 @@ export function WorkSpace() {
 
     // Handle moving a task between two different columns.
     if (active.colId !== over.colId) {
-      setData((prev) =>
+      setBoards((prev) =>
         produce(prev, (draft) => {
-          const cols = draft[selectedBoardIndex]?.columns;
-
+          const board = getSelectedBoard(selectedBoardId, draft);
+          const cols = board?.columns;
           cols[over.colIdx]?.tasks.splice(over.idx, 0, active.task); // Insert the dragged task into the target column.
           cols[active.colIdx]?.tasks.splice(active.idx, 1); // Remove the task from its original column.
         }),
@@ -79,10 +82,9 @@ export function WorkSpace() {
   };
 
   // Empty state: no boards exist
-  if (!data.length) return <EmptyWorkSpace />;
-  const board = data[selectedBoardIndex];
+  if (!boards.length) return <EmptyWorkSpace />;
   // Empty state: invalid or missing board
-  if (!board) return <EmptyWorkSpace />;
+  if (!selectedBoard) return <EmptyWorkSpace />;
 
   // Normal workspace (boards exist)
   return (
@@ -93,7 +95,7 @@ export function WorkSpace() {
       onDragOver={onDragOverHandler}
     >
       <section className="bg-light-grey flex h-[calc(100vh-97px)] flex-1 gap-6 overflow-auto p-6">
-        {data[selectedBoardIndex]?.columns.map((column) => (
+        {selectedBoard?.columns?.map((column) => (
           <Column
             key={column.id}
             id={column.id}
@@ -113,7 +115,7 @@ export function WorkSpace() {
           }
         >
           <EditBoardForm
-            selectedBoard={data[selectedBoardIndex]}
+            selectedBoard={selectedBoard}
             setOpen={setOpen}
             editMode={EDIT_MODES.EDIT}
           />

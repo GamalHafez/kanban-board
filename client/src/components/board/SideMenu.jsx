@@ -8,6 +8,7 @@ import { DialogPrimitive } from "@components/ui";
 import { useContext, useState } from "react";
 import DataContext from "@context/data-context";
 import { EDIT_MODES } from "@utils";
+import { APP_KEYS, getSelectedBoard, saveToStorage } from "@/utils";
 
 /**
  *
@@ -16,29 +17,34 @@ import { EDIT_MODES } from "@utils";
 
 export function SideMenu() {
   const [open, setOpen] = useState(false);
-  const { data, selectedBoardIndex, setSelectedBoardIndex } =
+  const { boards, selectedBoardId, setSelectedBoardId } =
     useContext(DataContext);
+  const selectedBoard = getSelectedBoard(selectedBoardId, boards);
 
   // Empty state: no boards exist
-  if (!data.length) return <EmptySideMenu />;
-  const board = data[selectedBoardIndex];
+  if (!boards.length) return <EmptySideMenu />;
   // Empty state: invalid or missing board
-  if (!board) return <EmptySideMenu />;
+  if (!selectedBoard) return <EmptySideMenu />;
 
-  // Normal workspace (boards exist)
+  // Normal workspace (Boards exist)
   return (
-    <aside className="side-menu border-Lines-Light border-lines-light -mt-px w-fit border-r bg-white md:w-[280px] lg:w-[288px]">
+    <aside className="side-menu border-Lines-Light border-lines-light -mt-px w-fit border-r bg-white lg:w-[288px] lg:border-r-2">
       <p className="text-heading-s text-medium-grey px-8 py-5 font-semibold tracking-widest uppercase lg:my-3 lg:px-8 lg:py-4">
         All Boards
-        <span className="text-main-blue ml-1.5 font-bold">({data.length})</span>
+        <span className="text-main-blue ml-1.5 font-bold">
+          ({boards.length})
+        </span>
       </p>
       <ul>
-        {data.map((board, index) => (
+        {boards.map((board) => (
           <li key={board.id}>
             <BoardButton
-              isSelected={selectedBoardIndex === index}
-              onClick={() => setSelectedBoardIndex(index)}
-              name={board.title}
+              isSelected={selectedBoardId === board.id}
+              onClick={() => {
+                setSelectedBoardId(board.id);
+                saveToStorage(APP_KEYS.selectedBoardId, board.id);
+              }}
+              name={board.name}
             />
           </li>
         ))}
