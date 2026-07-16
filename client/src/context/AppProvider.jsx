@@ -5,8 +5,10 @@ import { useMediaQuery } from "@uidotdev/usehooks";
 import { checkAuth } from "@/services/auth.service";
 import { getBoards } from "@/services/boards.service";
 import { saveToStorage } from "@/utils";
+import { PulseLoader } from "react-spinners";
 
 export function AppProvider({ children }) {
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
   const isAuthenticated = user !== null;
   const [boards, setBoards] = useState([]);
@@ -29,6 +31,8 @@ export function AppProvider({ children }) {
       } catch {
         setUser(null);
         setBoards([]);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -39,6 +43,14 @@ export function AppProvider({ children }) {
     setSelectedBoardId(newId);
     saveToStorage(APP_KEYS.selectedBoardId, newId);
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <PulseLoader color="#3b82f6" />
+      </div>
+    );
+  }
 
   return (
     <DataContext.Provider
@@ -53,6 +65,7 @@ export function AppProvider({ children }) {
         user,
         setUser,
         isAuthenticated,
+        isLoading,
       }}
     >
       {children}
