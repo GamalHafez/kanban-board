@@ -24,7 +24,7 @@ export function SideMenu() {
   // Empty state: no boards exist
   if (!boards.length) return <EmptySideMenu />;
   // Empty state: invalid or missing board
-  if (!selectedBoard) return <EmptySideMenu />;
+  if (!selectedBoard && !boards.length) return <EmptySideMenu />;
 
   // Normal workspace (Boards exist)
   return (

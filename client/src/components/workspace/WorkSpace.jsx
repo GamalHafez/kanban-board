@@ -13,7 +13,7 @@ import { DialogPrimitive } from "@components/ui";
 import { EditBoardForm } from "@components/board";
 import DataContext from "@context/data-context";
 import { calculateRows, EDIT_MODES, getDragData } from "@utils";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { produce } from "immer";
 import { getSelectedBoard } from "@/utils";
 
@@ -25,9 +25,23 @@ export function WorkSpace() {
     useSensor(KeyboardSensor),
     useSensor(MouseSensor),
   );
-  const { boards, setBoards, selectedBoardId } = useContext(DataContext);
+  const { boards, setBoards, updateSelectedBoardId, selectedBoardId } =
+    useContext(DataContext);
   const [open, setOpen] = useState(false);
   const selectedBoard = getSelectedBoard(selectedBoardId, boards);
+
+  useEffect(() => {
+    if (!boards.length) {
+      updateSelectedBoardId("");
+      return;
+    }
+
+    const exists = boards.some((board) => board.id === selectedBoardId);
+
+    if (!exists) {
+      updateSelectedBoardId(boards[0].id);
+    }
+  }, [boards, selectedBoardId, updateSelectedBoardId]);
 
   const handleDragEnd = (e) => {
     const { active, over } = getDragData(e, selectedBoard);
@@ -84,7 +98,7 @@ export function WorkSpace() {
   // Empty state: no boards exist
   if (!boards.length) return <EmptyWorkSpace />;
   // Empty state: invalid or missing board
-  if (!selectedBoard) return <EmptyWorkSpace />;
+  if (!selectedBoard && !boards.length) return <EmptyWorkSpace />;
 
   // Normal workspace (boards exist)
   return (
