@@ -13,7 +13,7 @@ export const ACTIONS = {
 export function reducer(state, { type, payload }) {
   switch (type) {
     case ACTIONS.UPDATE_TITLE:
-      return { ...state, title: payload.title };
+      return { ...state, name: payload.name };
     case ACTIONS.REMOVE_COLUMN:
       return {
         ...state,
@@ -22,12 +22,12 @@ export function reducer(state, { type, payload }) {
     case ACTIONS.ADD_COLUMN:
       return {
         ...state,
-        columns: [...state.columns, { title: "", tasks: [] }],
+        columns: [...state.columns, { name: "", tasks: [] }],
       };
     case ACTIONS.UPDATE_COLUMN_TITLE: {
       const updatedColumns = [...state.columns].map((col) => {
         if (col.id === payload.id) {
-          return { ...col, title: payload.title };
+          return { ...col, name: payload.name };
         }
         return col;
       });

@@ -4,11 +4,13 @@ import { DialogPrimitive, DropdownPrimitive } from "@components/ui";
 import { DeleteBoard, EditBoardForm } from "@components/board";
 import { DIALOG_DATA, EDIT_MODES } from "@utils";
 import iconVerticalEllipsis from "@assets/icon-vertical-ellipsis.svg";
+import { getSelectedBoard } from "@/utils";
 
 export function HeaderDropdown() {
-  const { selectedBoardIndex, boards } = useContext(DataContext);
+  const { selectedBoardId, boards } = useContext(DataContext);
   const [open, setOpen] = useState(false);
   const [dialogMode, setDialogMode] = useState(DIALOG_DATA.EDIT);
+  const selectedBoard = getSelectedBoard(selectedBoardId, boards);
 
   const dialogOnClick = (dialogMode) => {
     setDialogMode(dialogMode);
@@ -26,7 +28,7 @@ export function HeaderDropdown() {
     },
   };
 
-  return boards.length | boards[selectedBoardIndex] ? (
+  return boards.length | selectedBoard ? (
     <>
       <DropdownPrimitive
         items={dropDownItems}
@@ -50,7 +52,7 @@ export function HeaderDropdown() {
           <DeleteBoard dialogToggle={setOpen} />
         ) : (
           <EditBoardForm
-            selectedBoard={boards[selectedBoardIndex]}
+            selectedBoard={selectedBoard}
             setOpen={setOpen}
             editMode={EDIT_MODES.EDIT}
           />
