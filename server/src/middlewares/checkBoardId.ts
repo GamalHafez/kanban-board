@@ -7,11 +7,11 @@ export const checkBoardId = async (
   next: NextFunction,
 ) => {
   try {
-    const { id } = req.params;
+    const { boardId } = req.params;
 
     const board = await prisma.board.findUnique({
       where: {
-        id: id as string,
+        id: boardId as string,
         userId: req.user?.id,
       },
       select: {

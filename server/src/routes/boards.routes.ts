@@ -12,6 +12,7 @@ import {
   deleteBoard,
 } from "@/controllers/boards.controller.js";
 import { upsertBoardSchema } from "@shared/schemas/boards.validators.js";
+import columnsRoutes from "@routes/columns.routes.js";
 
 const route = Router();
 route.use(verifyJwt);
@@ -21,11 +22,13 @@ route
   .get(getBoards)
   .post(validateRequest(upsertBoardSchema), createBoard);
 
-route.param("id", checkBoardId);
+route.param("boardId", checkBoardId);
 route
-  .route("/:id")
+  .route("/:boardId")
   .get(getBoard)
   .patch(validateRequest(upsertBoardSchema), updateBoard)
   .delete(deleteBoard);
+
+route.use("/:boardId/columns", columnsRoutes);
 
 export default route;
