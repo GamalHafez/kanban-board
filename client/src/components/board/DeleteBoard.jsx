@@ -2,6 +2,7 @@ import { Button } from "@components/ui";
 import { useContext } from "react";
 import DataContext from "@context/data-context";
 import { getSelectedBoard } from "@/utils";
+import { deleteBoard, getBoards } from "@/services/boards.service";
 
 /**
  * @param {Object} props
@@ -10,17 +11,28 @@ import { getSelectedBoard } from "@/utils";
  */
 
 export function DeleteBoard({ dialogToggle }) {
-  const { boards, selectedBoardId } = useContext(DataContext);
+  const { boards, setBoards, selectedBoardId, updateSelectedBoardId } =
+    useContext(DataContext);
   const selectedBoard = getSelectedBoard(selectedBoardId, boards);
 
-  const deleteHandler = () => {
+  const deleteHandler = async () => {
+    await deleteBoard(selectedBoardId);
+    const fetchedBoards = await getBoards();
+    setBoards(fetchedBoards);
+
     dialogToggle(false);
 
     // Select the Previous board if avaliable
-    /**  if (selectedBoardId - 1 >= 0) {
-      setSelectedBoardIndex(selectedBoardIndex - 1);
-    } 
-      */
+    const selectedBoardIndex = boards.findIndex(
+      (b) => b.id === selectedBoardId,
+    );
+
+    const prevIndex = selectedBoardIndex - 1;
+    if (prevIndex >= 0) {
+      updateSelectedBoardId(boards[prevIndex]?.id);
+    } else {
+      updateSelectedBoardId(boards[0]?.id ?? "");
+    }
   };
 
   return (
