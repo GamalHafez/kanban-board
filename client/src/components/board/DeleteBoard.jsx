@@ -1,8 +1,9 @@
 import { Button } from "@components/ui";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import DataContext from "@context/data-context";
 import { getSelectedBoard } from "@/utils";
 import { deleteBoard, getBoards } from "@/services/boards.service";
+import { AuthErrorAlert } from "../ui/auth";
 
 /**
  * @param {Object} props
@@ -14,30 +15,41 @@ export function DeleteBoard({ dialogToggle }) {
   const { boards, setBoards, selectedBoardId, updateSelectedBoardId } =
     useContext(DataContext);
   const selectedBoard = getSelectedBoard(selectedBoardId, boards);
+  const [error, setError] = useState("");
 
   const deleteHandler = async () => {
-    await deleteBoard(selectedBoardId);
-    const fetchedBoards = await getBoards();
-    setBoards(fetchedBoards);
+    try {
+      await deleteBoard(selectedBoardId);
+      const fetchedBoards = await getBoards();
+      setBoards(fetchedBoards);
 
-    dialogToggle(false);
+      dialogToggle(false);
 
-    // Select the Previous board if avaliable
-    const selectedBoardIndex = boards.findIndex(
-      (b) => b.id === selectedBoardId,
-    );
+      // Select the Previous board if avaliable
+      const selectedBoardIndex = boards.findIndex(
+        (b) => b.id === selectedBoardId,
+      );
 
-    const prevIndex = selectedBoardIndex - 1;
-    if (prevIndex >= 0) {
-      updateSelectedBoardId(boards[prevIndex]?.id);
-    } else {
-      updateSelectedBoardId(boards[0]?.id ?? "");
+      const prevIndex = selectedBoardIndex - 1;
+      if (prevIndex >= 0) {
+        updateSelectedBoardId(boards[prevIndex]?.id);
+      } else {
+        updateSelectedBoardId(boards[0]?.id ?? "");
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError(String(err));
+      }
     }
   };
 
   return (
     <>
-      <p className="text-heading-xs text-gray-600">
+      {error && <AuthErrorAlert message={error} />}
+
+      <p className="text-heading-xs mt-4 text-gray-600">
         This action will remove all columns and tasks inside
         <span className="text-main-blue mx-1 font-bold">
           "{selectedBoard?.name}"
