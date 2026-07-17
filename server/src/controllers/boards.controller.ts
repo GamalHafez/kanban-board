@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "@config/db.js";
+import { ColumnResponse } from "@/types/index.js";
 
 export const getBoards = async (
   req: Request,
@@ -47,13 +48,19 @@ export const createBoard = async (
   next: NextFunction,
 ) => {
   try {
-    const { name } = req.body;
+    const { name, columns } = req.body;
 
     const board = await prisma.board.create({
       data: {
         name,
         user: {
           connect: { id: req.user?.id },
+        },
+        columns: {
+          create: columns.map((c: ColumnResponse, index: number) => ({
+            title: c.title,
+            position: index,
+          })),
         },
       },
       select: {
@@ -96,11 +103,20 @@ export const updateBoard = async (
   next: NextFunction,
 ) => {
   try {
-    const { name } = req.body;
+    const { name, columns } = req.body;
 
     const board = await prisma.board.update({
       where: { id: req.board?.id },
-      data: { name },
+      data: {
+        name,
+        columns: {
+          deleteMany: {},
+          create: columns.map((c: ColumnResponse, index: number) => ({
+            title: c.title,
+            position: index,
+          })),
+        },
+      },
     });
 
     res.status(200).json({
