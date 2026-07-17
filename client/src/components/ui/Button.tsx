@@ -53,6 +53,7 @@ export function Button({
     <button
       className={button({ variant, size, isFullWidth, className, isDisabled })}
       disabled={isDisabled}
+      type={type}
       {...props}
     >
       {children}

@@ -5,6 +5,7 @@ import DataContext from "@context/data-context";
 import { ACTIONS, EDIT_MODES, initialBoard, reducer } from "@utils";
 import { createBoard, getBoards, updateBoard } from "@/services/boards.service";
 import { AuthErrorAlert } from "@components/ui/auth";
+import { createColumn } from "@/services/columns.service";
 
 /**
  *
@@ -30,7 +31,7 @@ export function EditBoardForm({ selectedBoard = {}, editMode, setOpen }) {
     // Validate required fields before proceeding
     // Currently only checking the board title;
     // extend this if column validation is needed
-    if (!boardState.name.trim()) {
+    if (!boardState.title.trim()) {
       setError("Provide a board name");
       return;
     }
@@ -38,8 +39,21 @@ export function EditBoardForm({ selectedBoard = {}, editMode, setOpen }) {
     try {
       switch (editMode.title) {
         case EDIT_MODES.CREATE.title: {
-          const newBoard = await createBoard({ name: boardState.name });
-          setBoards((prev) => [...prev, newBoard]);
+          const newBoard = await createBoard({ name: boardState.title });
+
+          const columns = boardState.columns.filter((c) => c.title.trim());
+
+          await Promise.all(
+            columns.map((column) =>
+              createColumn(newBoard.id, {
+                title: column.title,
+              }),
+            ),
+          );
+
+          const boards = await getBoards();
+          setBoards(boards);
+
           updateSelectedBoardId(newBoard.id); // Select the newly created board
           break;
         }
@@ -72,13 +86,13 @@ export function EditBoardForm({ selectedBoard = {}, editMode, setOpen }) {
   const updateBoardTitle = (e) =>
     dispatch({
       type: ACTIONS.UPDATE_TITLE,
-      payload: { name: e.target.value },
+      payload: { title: e.target.value },
     });
 
   const updateColumnTitle = (e, id) =>
     dispatch({
       type: ACTIONS.UPDATE_COLUMN_TITLE,
-      payload: { id, name: e.target.value },
+      payload: { id, title: e.target.value },
     });
 
   return (
@@ -91,7 +105,7 @@ export function EditBoardForm({ selectedBoard = {}, editMode, setOpen }) {
             label="Board Name"
             name="boardName"
             isInvalid={Boolean(error) && !boardState.name}
-            value={boardState.name || ""}
+            value={boardState.title || ""}
             onChange={(e) => {
               setError("");
               updateBoardTitle(e);
@@ -140,7 +154,10 @@ export function EditBoardForm({ selectedBoard = {}, editMode, setOpen }) {
             variant="secondary"
             type="button"
             size="sm"
-            onClick={addColumn}
+            onClick={() => {
+              addColumn();
+              setError("");
+            }}
           >
             + Add New Column
           </Button>
