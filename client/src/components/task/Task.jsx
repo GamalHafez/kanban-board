@@ -78,6 +78,7 @@ export function Task({ title, id, colId, description, isPlaceHolder }) {
         dragJustEnded={dragJustEnded}
         setRows={setRows}
         rows={rows}
+        colId={colId}
       />
       <DeletePopOver
         deleteHandler={deleteTaskHandler}
