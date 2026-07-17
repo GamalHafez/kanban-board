@@ -49,3 +49,26 @@ export const createTask = async (
     next(err);
   }
 };
+
+export const updateTask = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { title, description } = req.body;
+
+    const task = await prisma.task.update({
+      where: { id: req.task!.id },
+      data: { title, description },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Task updated successfully",
+      data: { task },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
