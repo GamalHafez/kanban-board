@@ -2,6 +2,7 @@ import {
   getColumns,
   createColumn,
   updateColumn,
+  deleteColumn,
 } from "@/controllers/columns.controller.js";
 import { checkColumnId, validateRequest } from "@/middlewares/index.js";
 import { upsertColumnSchema } from "@shared/schemas/columns.validators.js";
@@ -17,6 +18,7 @@ route
 route.param("columnId", checkColumnId);
 route
   .route("/:columnId")
-  .patch(validateRequest(upsertColumnSchema), updateColumn);
+  .patch(validateRequest(upsertColumnSchema), updateColumn)
+  .delete(deleteColumn);
 
 export default route;

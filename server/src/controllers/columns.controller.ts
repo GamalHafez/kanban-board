@@ -98,3 +98,24 @@ export const updateColumn = async (
     next(err);
   }
 };
+
+export const deleteColumn = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const column = await prisma.column.delete({
+      where: { id: req.column!.id },
+      select: { title: true },
+    });
+
+    res.status(204).json({
+      success: true,
+      message: "Column deleted successfully",
+      data: { column },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
