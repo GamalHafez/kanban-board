@@ -72,3 +72,24 @@ export const updateTask = async (
     next(err);
   }
 };
+
+export const deleteTask = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const task = await prisma.task.delete({
+      where: { id: req.task!.id },
+      select: { title: true, description: true },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Task deleted successfully",
+      data: { task },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
