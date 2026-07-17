@@ -19,6 +19,18 @@ export const checkBoardId = async (
         name: true,
         createdAt: true,
         updatedAt: true,
+        columns: {
+          orderBy: {
+            position: "asc",
+          },
+          include: {
+            tasks: {
+              orderBy: {
+                position: "asc",
+              },
+            },
+          },
+        },
       },
     });
 

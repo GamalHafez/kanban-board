@@ -12,6 +12,24 @@ export const getBoards = async (
       orderBy: {
         createdAt: "desc",
       },
+      select: {
+        id: true,
+        name: true,
+        createdAt: true,
+        updatedAt: true,
+        columns: {
+          orderBy: {
+            position: "asc",
+          },
+          include: {
+            tasks: {
+              orderBy: {
+                position: "asc",
+              },
+            },
+          },
+        },
+      },
     });
 
     res.status(200).json({

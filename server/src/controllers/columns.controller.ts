@@ -29,3 +29,41 @@ export const getColumns = async (
     next(err);
   }
 };
+
+export const createColumn = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { title } = req.body;
+
+    const count = await prisma.column.count({
+      where: {
+        boardId: req.board!.id,
+      },
+    });
+
+    const column = await prisma.column.create({
+      data: {
+        title,
+        position: count + 1,
+        boardId: req.board!.id,
+      },
+      select: {
+        id: true,
+        title: true,
+        position: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    res.status(201).json({
+      success: true,
+      data: { column },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
