@@ -7,6 +7,7 @@ import { useContext, useState } from "react";
 import { useUpdateTask } from "@hooks";
 import { TaskContent } from "./TaskContent";
 import { getSelectedBoard } from "@/utils";
+import { deleteTask } from "@/services/tasks.service";
 
 /**
  *
@@ -43,19 +44,25 @@ export function Task({ title, id, colId, description, isPlaceHolder }) {
     transition,
   };
 
-  const deleteTaskHandler = () =>
-    setBoards((prev) =>
-      produce(prev, (draft) => {
-        const draftBoard = getSelectedBoard(selectedBoardId, draft);
+  const deleteTaskHandler = async () => {
+    try {
+      await deleteTask(selectedBoardId, colId, id);
 
-        const cols = draftBoard.columns;
-        const targetColIndex = cols.findIndex((col) => col.id === colId);
+      setBoards((prev) =>
+        produce(prev, (draft) => {
+          const board = getSelectedBoard(selectedBoardId, draft);
 
-        cols[targetColIndex].tasks = cols[targetColIndex].tasks.filter(
-          (task) => task.id !== id,
-        );
-      }),
-    );
+          const column = board.columns.find((c) => c.id === colId);
+
+          if (!column) return;
+
+          column.tasks = column.tasks.filter((task) => task.id !== id);
+        }),
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   if (isPlaceHolder) {
     return <div ref={setNodeRef} className="pointer-events-none opacity-0" />;

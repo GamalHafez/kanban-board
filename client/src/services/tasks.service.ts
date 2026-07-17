@@ -69,3 +69,28 @@ export const updateTaskService = async (
     throw normalizeError(err);
   }
 };
+
+export const deleteTask = async (
+  boardId: string,
+  columnId: string,
+  taskId: string,
+): Promise<Task> => {
+  try {
+    const url = `${import.meta.env.VITE_API_URL}${API_ENDPOINTS.BOARDS}/${boardId}/columns/${columnId}/tasks/${taskId}`;
+
+    const response = await fetch(url, {
+      method: "DELETE",
+      credentials: "include",
+    });
+
+    const res = await response.json();
+
+    if (!response.ok) {
+      throw new Error(res.message || res.error || "Failed to delete Task");
+    }
+
+    return res.data.task as Task;
+  } catch (err) {
+    throw normalizeError(err);
+  }
+};
