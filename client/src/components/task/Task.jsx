@@ -6,6 +6,7 @@ import DataContext from "@context/data-context";
 import { useContext, useState } from "react";
 import { useUpdateTask } from "@hooks";
 import { TaskContent } from "./TaskContent";
+import { getSelectedBoard } from "@/utils";
 
 /**
  *
@@ -28,8 +29,14 @@ export function Task({ title, id, colId, description, isPlaceHolder }) {
     transition,
     isDragging,
   } = useSortable({ id, data: { colId, rows, setRows } });
-  const { setData, selectedBoardIndex } = useContext(DataContext);
-  const updateTask = useUpdateTask({ selectedBoardIndex, colId, id, setData });
+  const { setBoards, selectedBoardId } = useContext(DataContext);
+
+  const updateTask = useUpdateTask({
+    selectedBoardId,
+    colId,
+    id,
+    setBoards,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -37,9 +44,11 @@ export function Task({ title, id, colId, description, isPlaceHolder }) {
   };
 
   const deleteTaskHandler = () =>
-    setData((prev) =>
+    setBoards((prev) =>
       produce(prev, (draft) => {
-        const cols = draft[selectedBoardIndex].columns;
+        const draftBoard = getSelectedBoard(selectedBoardId, draft);
+
+        const cols = draftBoard.columns;
         const targetColIndex = cols.findIndex((col) => col.id === colId);
 
         cols[targetColIndex].tasks = cols[targetColIndex].tasks.filter(

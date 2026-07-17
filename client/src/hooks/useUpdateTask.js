@@ -1,10 +1,12 @@
+import { getSelectedBoard } from "@/utils";
 import { produce } from "immer";
 
-export function useUpdateTask({ selectedBoardIndex, colId, id, setData }) {
+export function useUpdateTask({ selectedBoardId, colId, id, setBoards }) {
   const updateTask = (field, value) => {
-    setData((prev) =>
+    setBoards((prev) =>
       produce(prev, (draft) => {
-        const cols = draft[selectedBoardIndex].columns;
+        const draftBoard = getSelectedBoard(selectedBoardId, draft);
+        const cols = draftBoard.columns;
         const targetColIndex = cols.findIndex((col) => col.id === colId);
         const targetTaskIndex = cols[targetColIndex].tasks.findIndex(
           (t) => t.id === id,

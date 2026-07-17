@@ -7,6 +7,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { getSelectedBoard } from "@/utils";
 
 /**
  * @param {Object} props
@@ -17,25 +18,26 @@ import {
  */
 
 export function Column({ id, title, tasks = [] }) {
-  const { setData, selectedBoardIndex } = useContext(DataContext);
+  const { boards, setBoards, selectedBoardId } = useContext(DataContext);
+
+  const selectedBoard = getSelectedBoard(selectedBoardId, boards);
 
   const deleteColumnHandler = () =>
-    setData((prev) =>
+    setBoards((prev) =>
       produce(prev, (draft) => {
-        draft[selectedBoardIndex].columns = draft[
-          selectedBoardIndex
-        ].columns.filter((c) => c.id !== id);
+        const draftBoard = getSelectedBoard(selectedBoardId, draft);
+        selectedBoard.columns = draftBoard.columns.filter((c) => c.id !== id);
       }),
     );
 
   const addNewTaskHandler = () =>
-    setData((prev) =>
+    setBoards((prev) =>
       produce(prev, (draft) => {
-        const colIndex = draft[selectedBoardIndex]?.columns.findIndex(
-          (c) => c.id === id,
-        );
+        const draftBoard = getSelectedBoard(selectedBoardId, draft);
 
-        draft[selectedBoardIndex].columns[colIndex].tasks.push({
+        const colIndex = draftBoard?.columns.findIndex((c) => c.id === id);
+
+        draftBoard.columns[colIndex].tasks.push({
           id: crypto.randomUUID(),
           title: "",
           description: "",
@@ -49,7 +51,7 @@ export function Column({ id, title, tasks = [] }) {
 
   return (
     <article className="bg-lines-light group/article flex w-72 shrink-0 flex-col gap-6 self-start rounded-lg px-2 shadow">
-      <div className="flex relative justify-between px-2 pt-4">
+      <div className="relative flex justify-between px-2 pt-4">
         <h2 className="text-heading-s group/column text-medium-grey bg-lines-light relative top-0 rounded font-bold tracking-widest uppercase">
           {title}
           <span className="text-main-blue ml-1.5">({tasks.length})</span>
