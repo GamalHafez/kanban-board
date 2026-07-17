@@ -4,3 +4,4 @@ export * from "./routeNotFound.js";
 export * from "./validateRequest.js";
 export * from "./verifyJwt.js";
 export * from "./checkBoardId.js";
+export * from "./checkColumnId.js";
