@@ -1,5 +1,6 @@
 import { normalizeError } from "@/utils";
 import { API_ENDPOINTS } from "./urls";
+import { Column } from "./columns.service";
 
 export type Board = {
   id: string;
@@ -28,7 +29,10 @@ export const getBoards = async (): Promise<Board[]> => {
   }
 };
 
-export const createBoard = async (data: { name: string }): Promise<Board> => {
+export const createBoard = async (data: {
+  name: string;
+  columns: Column[];
+}): Promise<Board> => {
   try {
     const url = `${import.meta.env.VITE_API_URL}${API_ENDPOINTS.BOARDS}`;
 
@@ -53,7 +57,11 @@ export const createBoard = async (data: { name: string }): Promise<Board> => {
   }
 };
 
-export const updateBoard = async (id: string, name: string): Promise<Board> => {
+export const updateBoard = async (
+  id: string,
+  name: string,
+  columns: Column[],
+): Promise<Board> => {
   try {
     const url = `${import.meta.env.VITE_API_URL}${API_ENDPOINTS.BOARDS}/${id}`;
 
@@ -63,7 +71,7 @@ export const updateBoard = async (id: string, name: string): Promise<Board> => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name }),
+      body: JSON.stringify({ name, columns }),
     });
 
     const res = await response.json();

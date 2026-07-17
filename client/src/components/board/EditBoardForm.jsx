@@ -5,7 +5,6 @@ import DataContext from "@context/data-context";
 import { ACTIONS, EDIT_MODES, initialBoard, reducer } from "@utils";
 import { createBoard, getBoards, updateBoard } from "@/services/boards.service";
 import { AuthErrorAlert } from "@components/ui/auth";
-import { createColumn } from "@/services/columns.service";
 
 /**
  *
@@ -31,7 +30,7 @@ export function EditBoardForm({ selectedBoard = {}, editMode, setOpen }) {
     // Validate required fields before proceeding
     // Currently only checking the board title;
     // extend this if column validation is needed
-    if (!boardState.title.trim()) {
+    if (!boardState.name.trim()) {
       setError("Provide a board name");
       return;
     }
@@ -39,17 +38,8 @@ export function EditBoardForm({ selectedBoard = {}, editMode, setOpen }) {
     try {
       switch (editMode.title) {
         case EDIT_MODES.CREATE.title: {
-          const newBoard = await createBoard({ name: boardState.title });
-
-          const columns = boardState.columns.filter((c) => c.title.trim());
-
-          await Promise.all(
-            columns.map((column) =>
-              createColumn(newBoard.id, {
-                title: column.title,
-              }),
-            ),
-          );
+          const { name, columns } = boardState;
+          const newBoard = await createBoard({ name, columns });
 
           const boards = await getBoards();
           setBoards(boards);
@@ -59,7 +49,10 @@ export function EditBoardForm({ selectedBoard = {}, editMode, setOpen }) {
         }
 
         case EDIT_MODES.EDIT.title: {
-          await updateBoard(selectedBoard.id, boardState.name);
+          const { name, columns } = boardState;
+
+          await updateBoard(selectedBoard.id, name, columns);
+
           const fetchedBoards = await getBoards();
           setBoards(fetchedBoards);
           break;
@@ -86,7 +79,7 @@ export function EditBoardForm({ selectedBoard = {}, editMode, setOpen }) {
   const updateBoardTitle = (e) =>
     dispatch({
       type: ACTIONS.UPDATE_TITLE,
-      payload: { title: e.target.value },
+      payload: { name: e.target.value },
     });
 
   const updateColumnTitle = (e, id) =>
@@ -105,7 +98,7 @@ export function EditBoardForm({ selectedBoard = {}, editMode, setOpen }) {
             label="Board Name"
             name="boardName"
             isInvalid={Boolean(error) && !boardState.name}
-            value={boardState.title || ""}
+            value={boardState.name || ""}
             onChange={(e) => {
               setError("");
               updateBoardTitle(e);
@@ -126,18 +119,14 @@ export function EditBoardForm({ selectedBoard = {}, editMode, setOpen }) {
               className="mb-2.5 flex items-center gap-4 last:mb-0"
             >
               <TextField
-                isInvalid={
-                  Boolean(error) &&
-                  editMode.title === EDIT_MODES.EDIT.title &&
-                  !col.title
-                }
+                isInvalid={!col.title}
                 placeholder="e.g. ToDo"
                 name={col.id ?? ""}
                 onChange={(e) => {
                   setError("");
                   updateColumnTitle(e, col.id);
                 }}
-                value={col.title}
+                value={col.title ?? ""}
               />
               <button
                 onClick={() => removeColumn(col.id)}

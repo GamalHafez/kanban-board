@@ -1,7 +1,7 @@
 export const initialBoard = () => ({
   id: crypto.randomUUID(),
-  title: "",
-  columns: [{ id: crypto.randomUUID(), title: "", tasks: [] }],
+  name: "",
+  columns: [{ id: crypto.randomUUID(), name: "", tasks: [] }],
 });
 
 export const ACTIONS = {
@@ -14,7 +14,7 @@ export const ACTIONS = {
 export function reducer(state, { type, payload }) {
   switch (type) {
     case ACTIONS.UPDATE_TITLE:
-      return { ...state, title: payload.title };
+      return { ...state, name: payload.name };
     case ACTIONS.REMOVE_COLUMN:
       return {
         ...state,
