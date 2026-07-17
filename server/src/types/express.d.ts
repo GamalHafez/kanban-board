@@ -1,4 +1,9 @@
-import { UserResponse, BoardResponse, ColumnResponse } from "./index.js";
+import {
+  UserResponse,
+  BoardResponse,
+  ColumnResponse,
+  TaskResponse,
+} from "./index.js";
 
 declare global {
   namespace Express {
@@ -6,6 +11,7 @@ declare global {
       user?: UserResponse;
       board?: BoardResponse;
       column?: ColumnResponse;
+      task?: TaskResponse;
     }
   }
 }

@@ -5,3 +5,4 @@ export * from "./validateRequest.js";
 export * from "./verifyJwt.js";
 export * from "./checkBoardId.js";
 export * from "./checkColumnId.js";
+export * from "./checkTaskId.js";
