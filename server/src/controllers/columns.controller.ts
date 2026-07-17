@@ -110,7 +110,7 @@ export const deleteColumn = async (
       select: { title: true },
     });
 
-    res.status(204).json({
+    res.status(200).json({
       success: true,
       message: "Column deleted successfully",
       data: { column },

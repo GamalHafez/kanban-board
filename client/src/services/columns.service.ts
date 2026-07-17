@@ -85,3 +85,27 @@ export const updateColumn = async (
     throw normalizeError(err);
   }
 };
+
+export const deleteColumn = async (
+  boardId: string,
+  columnId: string,
+): Promise<Column> => {
+  try {
+    const url = `${import.meta.env.VITE_API_URL}${API_ENDPOINTS.BOARDS}/${boardId}/columns/${columnId}`;
+
+    const response = await fetch(url, {
+      method: "DELETE",
+      credentials: "include",
+    });
+
+    const res = await response.json();
+
+    if (!response.ok) {
+      throw new Error(res.message || res.error || "Failed to delete Column");
+    }
+
+    return res.data.column as Column;
+  } catch (err) {
+    throw normalizeError(err);
+  }
+};

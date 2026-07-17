@@ -8,6 +8,8 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { getSelectedBoard } from "@/utils";
+import { deleteColumn } from "@/services/columns.service";
+import { getBoards } from "@/services/boards.service";
 
 /**
  * @param {Object} props
@@ -18,17 +20,13 @@ import { getSelectedBoard } from "@/utils";
  */
 
 export function Column({ id, title, tasks = [] }) {
-  const { boards, setBoards, selectedBoardId } = useContext(DataContext);
+  const { setBoards, selectedBoardId } = useContext(DataContext);
 
-  const selectedBoard = getSelectedBoard(selectedBoardId, boards);
-
-  const deleteColumnHandler = () =>
-    setBoards((prev) =>
-      produce(prev, (draft) => {
-        const draftBoard = getSelectedBoard(selectedBoardId, draft);
-        selectedBoard.columns = draftBoard.columns.filter((c) => c.id !== id);
-      }),
-    );
+  const deleteColumnHandler = async () => {
+    await deleteColumn(selectedBoardId, id);
+    const boards = await getBoards();
+    setBoards(boards);
+  };
 
   const addNewTaskHandler = () =>
     setBoards((prev) =>
