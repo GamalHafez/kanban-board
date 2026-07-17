@@ -67,3 +67,34 @@ export const createColumn = async (
     next(err);
   }
 };
+
+export const updateColumn = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { title } = req.body;
+
+    const column = await prisma.column.update({
+      where: { id: req.column!.id },
+      data: { title },
+      select: {
+        id: true,
+        title: true,
+        position: true,
+        boardId: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Column updated successfully",
+      data: { column },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
