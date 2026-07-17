@@ -10,6 +10,7 @@ import {
 import { getSelectedBoard } from "@/utils";
 import { deleteColumn } from "@/services/columns.service";
 import { getBoards } from "@/services/boards.service";
+import { createTask } from "@/services/tasks.service";
 
 /**
  * @param {Object} props
@@ -28,20 +29,21 @@ export function Column({ id, title, tasks = [] }) {
     setBoards(boards);
   };
 
-  const addNewTaskHandler = () =>
+  const addNewTaskHandler = async () => {
+    const task = await createTask(selectedBoardId, id, {
+      title: "",
+      description: "",
+    });
+
     setBoards((prev) =>
       produce(prev, (draft) => {
-        const draftBoard = getSelectedBoard(selectedBoardId, draft);
+        const board = getSelectedBoard(selectedBoardId, draft);
+        const column = board.columns.find((c) => c.id === id);
 
-        const colIndex = draftBoard?.columns.findIndex((c) => c.id === id);
-
-        draftBoard.columns[colIndex].tasks.push({
-          id: crypto.randomUUID(),
-          title: "",
-          description: "",
-        });
+        column.tasks.push(task);
       }),
     );
+  };
 
   const tasksIds = tasks.length
     ? tasks.map((t) => t.id)
