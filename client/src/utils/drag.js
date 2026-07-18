@@ -24,7 +24,8 @@ export const getDragData = (e, board) => {
     ? 0 // always insert at index 0
     : getTaskIndex(board?.columns[overColIdx]?.tasks, overId);
   const overRows = e?.over?.data?.current?.rows;
-
+  const overTask = board.columns[overColIdx]?.tasks?.[overIdx];
+  const overColTasks = board.columns[overColIdx]?.tasks;
   const overIsColumn = !overColId; // empty column
 
   return {
@@ -33,14 +34,17 @@ export const getDragData = (e, board) => {
       idx: activeIdx,
       task: activeTask,
       colId: activeColId,
+      colTasks: activeColTasks,
       colIdx: activeColIdx,
       setRows: activeSetRows,
     },
     over: {
       id: overId,
       idx: overIdx,
+      task: overTask,
       colId: overColId,
       colIdx: overColIdx,
+      colTasks: overColTasks,
       rows: overRows,
       isColumn: overIsColumn,
     },

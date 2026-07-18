@@ -10,6 +10,13 @@ export type Task = {
   updatedAt: Date;
 };
 
+type ReorderPayload = {
+  sourceColumnId: string;
+  targetColumnId: string;
+  sourceTasks: [id: string, position: number];
+  targetTasks?: [id: string, position: number];
+};
+
 export const createTask = async (
   boardId: string,
   columnId: string,
@@ -90,6 +97,35 @@ export const deleteTask = async (
     }
 
     return res.data.task as Task;
+  } catch (err) {
+    throw normalizeError(err);
+  }
+};
+
+export const reorderTasks = async (
+  boardId: string,
+  columnId: string,
+  reorderPayload: ReorderPayload,
+): Promise<string> => {
+  try {
+    const url = `${import.meta.env.VITE_API_URL}${API_ENDPOINTS.BOARDS}/${boardId}/columns/${columnId}/tasks/reorder`;
+
+    const response = await fetch(url, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reorderPayload),
+    });
+
+    const res = await response.json();
+
+    if (!response.ok) {
+      throw new Error(res.message || res.error || "Failed to reorder Tasks");
+    }
+
+    return res.message;
   } catch (err) {
     throw normalizeError(err);
   }

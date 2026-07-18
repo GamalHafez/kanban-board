@@ -16,6 +16,8 @@ import { calculateRows, EDIT_MODES, getDragData } from "@utils";
 import { useContext, useEffect, useState } from "react";
 import { produce } from "immer";
 import { getSelectedBoard } from "@/utils";
+import { reorderTasks } from "@/services/tasks.service";
+import { getBoards } from "@/services/boards.service";
 
 export function WorkSpace() {
   const sensors = useSensors(
@@ -29,6 +31,13 @@ export function WorkSpace() {
     useContext(DataContext);
   const [open, setOpen] = useState(false);
   const selectedBoard = getSelectedBoard(selectedBoardId, boards);
+  const [dragInfo, setDragInfo] = useState(null);
+
+  const handleDragStart = (e) => {
+    setDragInfo({
+      sourceColumnId: e.active.data.current.colId,
+    });
+  };
 
   useEffect(() => {
     if (!boards.length) {
@@ -43,9 +52,8 @@ export function WorkSpace() {
     }
   }, [boards, selectedBoardId, updateSelectedBoardId]);
 
-  const handleDragEnd = (e) => {
+  const handleDragEnd = async (e) => {
     const { active, over } = getDragData(e, selectedBoard);
-    if (active.id === over.id) return;
 
     const setRows = active.setRows;
     setRows &&
@@ -55,8 +63,17 @@ export function WorkSpace() {
         desc: calculateRows(active.task.description, 26.5),
       }));
 
+    const sourceColumnId = dragInfo.sourceColumnId;
+    const targetColumnId = e.over.data.current.colId;
+
     // Handle reordering when dragging within the same column.
-    if (active.colId === over.colId) {
+    if (sourceColumnId === targetColumnId) {
+      const reorderedTasks = arrayMove(
+        [...active.colTasks],
+        active.idx,
+        over.idx,
+      );
+
       setBoards((prev) =>
         produce(prev, (draft) => {
           const board = getSelectedBoard(selectedBoardId, draft);
@@ -64,17 +81,60 @@ export function WorkSpace() {
           targetCol.tasks = arrayMove(targetCol.tasks, active.idx, over.idx);
         }),
       );
+
+      try {
+        await reorderTasks(selectedBoardId, active.colId, {
+          sourceColumnId: active.colId,
+          targetColumnId: over.colId,
+          sourceTasks: reorderedTasks.map((task, index) => ({
+            id: task.id,
+            position: index,
+          })),
+        });
+      } finally {
+        const fetchedBoards = await getBoards();
+        setBoards(fetchedBoards);
+      }
+    }
+
+    if (sourceColumnId !== targetColumnId) {
+      const sourceColumn = selectedBoard.columns.find(
+        (c) => c.id === sourceColumnId,
+      );
+
+      const targetColumn = selectedBoard.columns.find(
+        (c) => c.id === targetColumnId,
+      );
+      try {
+        await reorderTasks(selectedBoardId, active.colId, {
+          sourceColumnId: sourceColumn.id,
+          targetColumnId: targetColumn.id,
+
+          sourceTasks: sourceColumn.tasks.map((task, index) => ({
+            id: task.id,
+            position: index,
+          })),
+
+          targetTasks: targetColumn.tasks.map((task, index) => ({
+            id: task.id,
+            position: index,
+          })),
+        });
+      } catch {
+        const fetchedBoards = await getBoards();
+        setBoards(fetchedBoards);
+      }
     }
   };
 
   const onDragOverHandler = (e) => {
     const { active, over } = getDragData(e, selectedBoard);
+
+    if (!over) return;
     if (!e.delta.x && !e.delta.y) return;
 
-    /* While dragging, adapt the dragged task's row count to mimic the size
-      of whatever task it's hovering over. This gives smoother visual slotting
-      and prevents the layout from "jumping" as the placeholder shifts. */
     const setRows = active.setRows;
+
     setRows &&
       setRows((prev) => ({
         ...prev,
@@ -82,17 +142,21 @@ export function WorkSpace() {
         desc: over.rows.desc,
       }));
 
-    // Handle moving a task between two different columns.
-    if (active.colId !== over.colId) {
-      setBoards((prev) =>
-        produce(prev, (draft) => {
-          const board = getSelectedBoard(selectedBoardId, draft);
-          const cols = board?.columns;
-          cols[over.colIdx]?.tasks.splice(over.idx, 0, active.task); // Insert the dragged task into the target column.
-          cols[active.colIdx]?.tasks.splice(active.idx, 1); // Remove the task from its original column.
-        }),
-      );
-    }
+    if (active.colId === over.colId) return;
+
+    setBoards((prev) =>
+      produce(prev, (draft) => {
+        const board = getSelectedBoard(selectedBoardId, draft);
+
+        const sourceColumn = board.columns.find((c) => c.id === active.colId);
+
+        const targetColumn = board.columns.find((c) => c.id === over.colId);
+
+        const [task] = sourceColumn.tasks.splice(active.idx, 1);
+
+        targetColumn.tasks.splice(over.idx, 0, task);
+      }),
+    );
   };
 
   // Empty state: no boards exist
@@ -107,6 +171,7 @@ export function WorkSpace() {
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
       onDragOver={onDragOverHandler}
+      onDragStart={handleDragStart}
     >
       <section className="bg-light-grey flex h-[calc(100vh-97px)] flex-1 gap-6 overflow-auto p-6">
         {selectedBoard?.columns?.map((column) => (
