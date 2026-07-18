@@ -110,11 +110,26 @@ export const updateBoard = async (
       data: {
         name,
         columns: {
+          // wipe all old columns
           deleteMany: {},
+          // recreate columns with tasks
           create: columns.map((c: ColumnResponse, index: number) => ({
             title: c.title,
             position: index,
+            tasks: {
+              create: (c.tasks || []).map((t, taskIndex) => ({
+                title: t.title,
+                description: t.description,
+                position: taskIndex,
+              })),
+            },
           })),
+        },
+      },
+      include: {
+        columns: {
+          orderBy: { position: "asc" },
+          include: { tasks: { orderBy: { position: "asc" } } },
         },
       },
     });
@@ -127,6 +142,7 @@ export const updateBoard = async (
     next(err);
   }
 };
+
 
 export const deleteBoard = async (
   req: Request,

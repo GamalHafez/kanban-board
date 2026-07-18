@@ -14,6 +14,8 @@ export const upsertBoardSchema = z.object({
         .trim()
         .min(2, { message: "Name must be at least 2 characters long." })
         .max(50, { message: "Name cannot exceed 50 characters." }),
+
+      tasks: z.array(z.any()),
     }),
   ),
 });
