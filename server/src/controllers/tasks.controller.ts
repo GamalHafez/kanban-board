@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "@config/db.js";
+import { TaskResponse } from "@/types/index.js";
 
 export const createTask = async (
   req: Request,
@@ -88,6 +89,109 @@ export const deleteTask = async (
       success: true,
       message: "Task deleted successfully",
       data: { task },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const reorderTasks = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { sourceColumnId, targetColumnId, sourceTasks, targetTasks } =
+      req.body;
+
+    // Ensure both columns belong to the current board
+    const columns = await prisma.column.findMany({
+      where: {
+        id: {
+          in: [sourceColumnId, targetColumnId],
+        },
+        boardId: req.board!.id,
+      },
+      select: { id: true },
+    });
+
+    if (columns.length !== (sourceColumnId === targetColumnId ? 1 : 2)) {
+      return res.status(404).json({
+        success: false,
+        message: "Column not found.",
+      });
+    }
+
+    if (sourceColumnId === targetColumnId) {
+      await prisma.$transaction(async (tx) => {
+        // Phase 1
+        for (const task of sourceTasks) {
+          await tx.task.update({
+            where: { id: task.id },
+            data: {
+              position: -(task.position + 1),
+            },
+          });
+        }
+
+        // Phase 2
+        for (const task of sourceTasks) {
+          await tx.task.update({
+            where: { id: task.id },
+            data: {
+              position: task.position,
+            },
+          });
+        }
+      });
+    } else {
+      await prisma.$transaction([
+        ...sourceTasks.map((task: TaskResponse, index: number) =>
+          prisma.task.update({
+            where: { id: task.id },
+            data: {
+              columnId: sourceColumnId,
+              position: -(index + 1), // temporary unique positions
+            },
+          }),
+        ),
+
+        ...targetTasks.map((task: TaskResponse, index: number) =>
+          prisma.task.update({
+            where: { id: task.id },
+            data: {
+              columnId: targetColumnId,
+              position: -(index + 1000), // different temporary range
+            },
+          }),
+        ),
+      ]);
+      await prisma.$transaction([
+        ...sourceTasks.map((task: TaskResponse) =>
+          prisma.task.update({
+            where: { id: task.id },
+            data: {
+              columnId: sourceColumnId,
+              position: task.position,
+            },
+          }),
+        ),
+
+        ...targetTasks.map((task: TaskResponse) =>
+          prisma.task.update({
+            where: { id: task.id },
+            data: {
+              columnId: targetColumnId,
+              position: task.position,
+            },
+          }),
+        ),
+      ]);
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Tasks reordered successfully.",
     });
   } catch (err) {
     next(err);
