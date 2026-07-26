@@ -9,13 +9,15 @@ export function HeaderIdentity() {
   return (
     <div
       to="/"
-      className="border-lines-light flex self-stretch border-l md:w-[280px] md:border-r md:pl-8 lg:w-[350px] lg:border-r-2 lg:pl-8"
+      className="border-lines-light flex self-stretch md:w-[270px] md:border-r md:pl-8 lg:w-[350px] lg:border-r-2 lg:pl-8"
     >
-      <Link className="flex items-center gap-1.5 self-stretch md:gap-2 lg:gap-3">
+      <Link className="flex items-center self-stretch md:gap-2 lg:gap-3">
         <img src={logo} alt="Kanban logo" className="w-7 md:w-8 lg:w-8" />
-        <h1 className="text-heading-l font-bold md:text-[22px] lg:text-[27px]">
-          {!isSmallDevice && "Kanban"}
-        </h1>
+        {!isSmallDevice && (
+          <h1 className="text-heading-l font-bold md:text-[22px] lg:text-[27px]">
+            Kanban
+          </h1>
+        )}
       </Link>
     </div>
   );

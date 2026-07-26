@@ -28,7 +28,7 @@ export function SideMenu() {
 
   // Normal workspace (Boards exist)
   return (
-    <aside className="side-menu border-Lines-Light border-lines-light -mt-px w-fit border-r bg-white lg:w-[288px] lg:border-r-2">
+    <aside className="side-menu border-Lines-Light border-lines-light -mt-px w-fit border-r bg-white lg:w-[310px] lg:border-r-2">
       <p className="text-heading-s text-medium-grey px-8 py-5 font-semibold tracking-widest uppercase lg:my-3 lg:px-8 lg:py-4">
         All Boards
         <span className="text-main-blue ml-1.5 font-bold">
