@@ -6,7 +6,7 @@ const Navbar = () => {
   const { isAuthenticated } = useContext(DataContext);
 
   return (
-  <nav className="ml-auto flex items-center gap-4 lg:pr-10 md:pr-10 pl-0.5 md:pl-6 lg:pl-20">
+    <nav className="flex  items-center gap-4 pl-0.5 md:ml-auto md:pr-10 md:pl-6 lg:pr-10 lg:pl-20">
       {isAuthenticated ? (
         <>
           <Link to="/boards">Boards</Link>
