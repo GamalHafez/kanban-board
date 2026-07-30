@@ -28,12 +28,12 @@ const RootLayout = () => {
             </div>
           )}
 
-          <div className="hidden md:flex">
+          <div className="ml-auto hidden md:flex">
             <Navbar />
           </div>
 
           <button
-            className="text-main-blue hover:bg-brand-50 rounded-md p-2 md:hidden"
+            className="text-main-blue hover:bg-brand-50 ml-auto rounded-md p-2 md:hidden"
             aria-label="Open navigation"
             onClick={() => setIsNavOpen(!isNavOpen)}
           >
@@ -47,6 +47,7 @@ const RootLayout = () => {
             </svg>
           </button>
         </div>
+
         {isNavOpen && (
           <div
             className={`fixed inset-y-15 right-0 z-50 flex h-2/6 w-64 transform flex-col bg-white shadow-xl transition-transform duration-300 ease-in-out md:hidden ${isNavOpen ? "translate-x-0" : "translate-x-full"}`}
