@@ -9,7 +9,7 @@ export default createContext({
   setSelectedBoardId: () => {},
   isSmallDevice: false,
 
-  user: {},
+  user: { name: "", email: "" },
   setUser: () => {},
   isAuthenticated: false,
 });
