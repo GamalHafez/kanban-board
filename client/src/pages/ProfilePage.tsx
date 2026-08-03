@@ -1,4 +1,5 @@
 import { PersonalInformation } from "@/components/profile/PersonalInformation";
+import { UserBoards } from "@/components/profile/UserBoards";
 import { Board, getBoards } from "@/services/boards.service";
 import DataContext from "@context/data-context";
 import { useContext, useEffect, useState } from "react";
@@ -33,15 +34,7 @@ export const ProfilePage = () => {
 
       <PersonalInformation name={name} email={email} />
 
-      <section className="space-y-8">
-        {/* Stats cards */}
-
-        {/* Recent boards */}
-
-        {/* Recent tasks */}
-
-        {/* Activity */}
-      </section>
+      <UserBoards boards={boards} isLoading={isLoading} error={error} />
     </main>
   );
 };

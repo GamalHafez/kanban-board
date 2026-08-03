@@ -3,6 +3,7 @@ import { API_ENDPOINTS } from "./urls";
 import { Column } from "./columns.service";
 
 export type Board = {
+  columns: Column[];
   id: string;
   name: string;
   createdAt: Date;
