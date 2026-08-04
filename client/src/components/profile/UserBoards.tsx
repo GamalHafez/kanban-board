@@ -1,4 +1,7 @@
 import { Board } from "@/services/boards.service";
+import { useNavigate } from "react-router-dom";
+import DataContext from "@context/data-context";
+import { useContext } from "react";
 
 type UserBoardsProps = {
   boards: Board[];
@@ -7,12 +10,20 @@ type UserBoardsProps = {
 };
 
 export const UserBoards = ({ boards, isLoading, error }: UserBoardsProps) => {
+  const navigate = useNavigate();
+  const { updateSelectedBoardId } = useContext(DataContext);
+
+  const seeBoard = (boardId: string) => {
+    updateSelectedBoardId(boardId);
+    navigate("/boards");
+  };
+
   return (
     <section className="mt-10">
       <div className="mb-5 flex items-center justify-between">
         <h2 className="text-heading-l font-bold">Your Boards</h2>
 
-        <span className="text-zinc-700">
+        <span className="pr-4 text-zinc-700 lg:pr-0">
           {boards.length} {boards.length === 1 ? "Board" : "Boards"}
         </span>
       </div>
@@ -60,7 +71,10 @@ export const UserBoards = ({ boards, isLoading, error }: UserBoardsProps) => {
                   {new Date(board.updatedAt).toLocaleDateString()}
                 </p>
               </div>
-              <button className="focus:ring-main-purple/30 mt-6 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-blue-300 px-4 py-3 text-sm font-semibold text-black transition-colors duration-200 hover:bg-blue-400 focus:ring-2 focus:outline-none">
+              <button
+                onClick={() => seeBoard(board.id)}
+                className="focus:ring-main-purple/30 mt-6 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-blue-500 px-4 py-3 text-sm font-semibold text-zinc-100 transition-colors duration-200 hover:bg-blue-400 focus:ring-2 focus:outline-none"
+              >
                 See Board
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

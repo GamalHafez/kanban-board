@@ -6,7 +6,8 @@ export default createContext({
   boards: [],
   setBoards: () => {},
   selectedBoardId: "",
-  setSelectedBoardId: () => {},
+  setSelectedBoardId: (board) => board,
+  updateSelectedBoardId: (board) => board,
   isSmallDevice: false,
 
   user: { name: "", email: "" },
