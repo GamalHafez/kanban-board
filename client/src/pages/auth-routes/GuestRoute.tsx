@@ -4,10 +4,9 @@ import DataContext from "@context/data-context";
 
 export const GuestRoute = () => {
   const { isAuthenticated } = useContext(DataContext);
-  const lastPath = localStorage.getItem("lastPath") || "/";
 
   if (isAuthenticated) {
-    return <Navigate to={lastPath} replace />;
+    return <Navigate to="" replace />;
   }
 
   return <Outlet />;
