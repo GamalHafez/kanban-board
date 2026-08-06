@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  boards Board[]
+}
+
+model Board {
+  id   String @id @default(uuid())
+  name String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Realtions:
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  columns Column[]
+
+  @@index([userId])
+}
+
+model Column {
+  id       String @id @default(uuid())
+  title    String
+  position Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations:
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId String
+
+  tasks Task[]
+
+  @@unique([boardId, position])
+  @@index([boardId])
+}
+
+model Task {
+  id          String  @id @default(uuid())
+  title       String
+  description String?
+  position    Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations:
+  column   Column @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  columnId String
+
+  @@unique([columnId, position])
+  @@index([columnId])
+}
